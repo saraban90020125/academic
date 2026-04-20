@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบเก็บบันทึกข้อมูลโรงเรียนวัดเลียบ ปีการศึกษา 2569</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rose-50: #fff7fa;
+      --rose-100: #ffe8ef;
+      --rose-200: #f8d6e2;
+      --rose-300: #efb9cb;
+      --rose-500: #cc6f92;
+      --rose-700: #8c4561;
+      --leaf-100: #edf6ef;
+      --leaf-500: #5c8f63;
+      --leaf-700: #34543a;
+      --cream: #fffaf3;
+      --text: #45333b;
+      --white: #ffffff;
+      --shadow: 0 18px 45px rgba(140, 69, 97, 0.15);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans Thai", sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(255, 247, 250, 0.9), rgba(255, 250, 243, 0.92)),
+        url("https://hips.hearstapps.com/hmg-prod/images/assortment-of-pink-shaded-zinnias-in-a-flower-patch-royalty-free-image-1702929155.jpg?crop=0.66667xw:1xh;center,top") center/cover fixed;
+      min-height: 100vh;
+    }
+
+    .page {
+      width: min(1080px, calc(100% - 32px));
+      margin: 32px auto;
+      padding: 28px;
+      background: rgba(255, 250, 243, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .hero-card,
+    .image-card,
+    .table-card {
+      background: rgba(255, 255, 255, 0.82);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 10px 30px rgba(140, 69, 97, 0.1);
+    }
+
+    .hero-card {
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -60px auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(239, 185, 203, 0.45), rgba(239, 185, 203, 0));
+      pointer-events: none;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--rose-100);
+      color: var(--rose-700);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      font-weight: 600;
+      color: #a65b79;
+    }
+
+    .brand img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--white);
+      padding: 4px;
+      box-shadow: 0 4px 16px rgba(140, 69, 97, 0.15);
+    }
+
+    h1 {
+      margin: 18px 0 10px;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.2;
+      color: var(--rose-700);
+    }
+
+    .subtitle {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--leaf-700);
+    }
+
+    .caption {
+      margin: 10px 0 0;
+      font-size: 16px;
+      line-height: 1.8;
+      color: #5a4850;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(140, 69, 97, 0.16);
+    }
+
+    .button-primary {
+      background: linear-gradient(135deg, var(--rose-500), #e08aaa);
+      color: var(--white);
+    }
+
+    .button-secondary {
+      background: var(--leaf-100);
+      color: var(--leaf-700);
+      border: 1px solid rgba(92, 143, 99, 0.18);
+    }
+
+    .stats {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .stat {
+      flex: 1 1 140px;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, #fff, #fff6f8);
+      border: 1px solid rgba(248, 214, 226, 0.9);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 26px;
+      color: var(--rose-700);
+    }
+
+    .stat span {
+      color: #6f5b63;
+      font-size: 14px;
+    }
+
+    .image-card {
+      overflow: hidden;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .image-card img {
+      width: 100%;
+      height: 100%;
+      min-height: 320px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .image-note {
+      padding: 16px 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,247,250,0.95));
+      color: var(--rose-700);
+      font-weight: 600;
+    }
+
+    .table-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      color: var(--rose-700);
+      font-size: 28px;
+    }
+
+    .section-head p {
+      margin: 6px 0 0;
+      color: #6c5860;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 18px;
+      background: var(--white);
+    }
+
+    thead th {
+      background: linear-gradient(135deg, #d884a3, #c86b90);
+      color: var(--white);
+      font-size: 15px;
+      letter-spacing: 0.2px;
+    }
+
+    th,
+    td {
+      padding: 16px 18px;
+      text-align: left;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: #fff8fa;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #fffdf8;
+    }
+
+    tbody tr:hover {
+      background: #ffeef4;
+    }
+
+    .teacher-pill,
+    .count-pill {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .teacher-pill {
+      background: var(--leaf-100);
+      color: var(--leaf-700);
+    }
+
+    .count-pill {
+      background: var(--rose-100);
+      color: var(--rose-700);
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      text-align: center;
+      color: #6f5b63;
+      font-size: 14px;
+    }
+
+    @media (max-width: 860px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .page {
+        width: min(100% - 20px, 1080px);
+        margin: 16px auto;
+        padding: 18px;
+      }
+
+      .section-head {
+        flex-direction: column;
+        align-items: start;
+      }
+
+      th,
+      td {
+        padding: 14px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-card,
+      .table-card {
+        padding: 18px;
+      }
+
+      .brand {
+        font-size: 13px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+      }
+
+      table,
+      thead,
+      tbody,
+      th,
+      td,
+      tr {
+        display: block;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tbody tr {
+        margin-bottom: 14px;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: inset 0 0 0 1px rgba(248, 214, 226, 0.8);
+      }
+
+      tbody td {
+        padding: 12px 14px;
+      }
+
+      tbody td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 6px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--rose-700);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="hero-card">
+        <div class="brand">
+          <img src="https://drive.google.com/thumbnail?id=1jJF5MKkhVepfF8pY4gkPQ9S_xPuKUuWf&sz=w1000" alt="ตราโรงเรียนวัดเลียบ">
+          <span class="brand-text">
+            <span>โรงเรียนวัดเลียบ</span>
+            <span class="brand-subtitle">ฝ่ายวิชาการ โรงเรียนวัดเลียบ</span>
+          </span>
+        </div>
+
+        <h1>ระบบเก็บบันทึกข้อมูลโรงเรียนวัดเลียบ</h1>
+        <p class="subtitle">ปีการศึกษา 2569</p>
+        <p class="caption">สพป.สงขลา เขต 2 พร้อมพื้นที่สำหรับอัปโหลดเอกสารและติดตามข้อมูลประจำชั้นในบรรยากาศโทนดอกไม้สีชมพูอ่อนที่ดูสดใสและอบอุ่น</p>
+
+        <div class="hero-actions">
+          <a class="button button-primary" href="upload.html">ส่งผลสัมฤทธิ์</a>
+          <a class="button button-primary" href="calendar.html">ปฏิทินวิชาการ</a>
+          <a class="button button-secondary" href="#classroom-table">ดูข้อมูลประจำชั้น</a>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <strong>6</strong>
+            <span>ระดับชั้นเรียน</span>
+          </div>
+          <div class="stat">
+            <strong>68</strong>
+            <span>จำนวนนักเรียนทั้งหมด</span>
+          </div>
+          <div class="stat">
+            <strong>2569</strong>
+            <span>ปีการศึกษาปัจจุบัน</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="image-card">
+        <img src="https://hips.hearstapps.com/hmg-prod/images/assortment-of-pink-shaded-zinnias-in-a-flower-patch-royalty-free-image-1702929155.jpg?crop=0.66667xw:1xh;center,top" alt="ดอกไม้โทนชมพู">
+        <div class="image-note" id="thai-date-greeting">สวัสดีวันจันทร์</div>
+      </div>
+    </section>
+
+    <section class="table-card" id="classroom-table">
+      <div class="section-head">
+        <div>
+          <h2>ข้อมูลประจำชั้น</h2>
+          <p>สรุปข้อมูลครูประจำชั้นและจำนวนนักเรียนแต่ละระดับชั้น</p>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ชั้น</th>
+            <th>ครูประจำชั้น</th>
+            <th>จำนวนนักเรียน</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="ชั้น">ป.1</td>
+            <td data-label="ครูประจำชั้น"><span class="teacher-pill">ครูเกษร</span></td>
+            <td data-label="จำนวนนักเรียน"><span class="count-pill">3 คน</span></td>
+          </tr>
+          <tr>
+            <td data-label="ชั้น">ป.2</td>
+            <td data-label="ครูประจำชั้น"><span class="teacher-pill">ครูนุสริน</span></td>
+            <td data-label="จำนวนนักเรียน"><span class="count-pill">16 คน</span></td>
+          </tr>
+          <tr>
+            <td data-label="ชั้น">ป.3</td>
+            <td data-label="ครูประจำชั้น"><span class="teacher-pill">ครูชมพูนุช</span></td>
+            <td data-label="จำนวนนักเรียน"><span class="count-pill">9 คน</span></td>
+          </tr>
+          <tr>
+            <td data-label="ชั้น">ป.4</td>
+            <td data-label="ครูประจำชั้น"><span class="teacher-pill">ครูนญิลา</span></td>
+            <td data-label="จำนวนนักเรียน"><span class="count-pill">13 คน</span></td>
+          </tr>
+          <tr>
+            <td data-label="ชั้น">ป.5</td>
+            <td data-label="ครูประจำชั้น"><span class="teacher-pill">ครูณิชชาวีร์</span></td>
+            <td data-label="จำนวนนักเรียน"><span class="count-pill">18 คน</span></td>
+          </tr>
+          <tr>
+            <td data-label="ชั้น">ป.6</td>
+            <td data-label="ครูประจำชั้น"><span class="teacher-pill">ครูวรลักษณ์</span></td>
+            <td data-label="จำนวนนักเรียน"><span class="count-pill">9 คน</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="footer-note">หน้าเว็บนี้ออกแบบให้ใช้งานได้ทั้งบนคอมพิวเตอร์และโทรศัพท์</p>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var target = document.getElementById("thai-date-greeting");
+      if (!target) return;
+
+      var days = [
+        "อาทิตย์",
+        "จันทร์",
+        "อังคาร",
+        "พุธ",
+        "พฤหัสบดี",
+        "ศุกร์",
+        "เสาร์"
+      ];
+
+      var months = [
+        "มกราคม",
+        "กุมภาพันธ์",
+        "มีนาคม",
+        "เมษายน",
+        "พฤษภาคม",
+        "มิถุนายน",
+        "กรกฎาคม",
+        "สิงหาคม",
+        "กันยายน",
+        "ตุลาคม",
+        "พฤศจิกายน",
+        "ธันวาคม"
+      ];
+
+      var today = new Date();
+      var dayName = days[today.getDay()];
+      var date = today.getDate();
+      var monthName = months[today.getMonth()];
+      var buddhistYear = today.getFullYear() + 543;
+
+      target.textContent = "สวัสดีวัน" + dayName + " ที่ " + date + " เดือน" + monthName + " พ.ศ. " + buddhistYear;
+    })();
+  </script>
+</body>
+</html>

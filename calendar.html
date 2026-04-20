@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ปฏิทินวิชาการ | โรงเรียนวัดเลียบ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* โทนสุภาพ: ขาว เทา น้ำเงิน + ม่วงอ่อน */
+      --primary-100: #eef4ff;
+      --primary-300: #bfd0ee;
+      --primary-500: #4f6fa8;
+      --primary-700: #244268;
+
+      --accent-100: #f3f0fb;
+      --accent-300: #d8cdf2;
+      --accent-500: #7b6bb3;
+      --accent-700: #51457d;
+
+      --neutral-50: #f8fafc;
+      --neutral-100: #f1f5f9;
+      --neutral-200: #e2e8f0;
+      --neutral-500: #64748b;
+      --neutral-700: #334155;
+      --text: #243447;
+      --white: #ffffff;
+
+      --shadow-lg: 0 18px 40px rgba(36, 66, 104, 0.10);
+      --shadow-md: 0 10px 24px rgba(36, 66, 104, 0.08);
+
+      --radius-lg: 28px;
+      --radius-md: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Noto Sans Thai", sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(21, 42, 74, 0.62), rgba(38, 60, 96, 0.15)),
+        url("https://hips.hearstapps.com/hmg-prod/images/assortment-of-pink-shaded-zinnias-in-a-flower-patch-royalty-free-image-1702929155.jpg?crop=0.66667xw:1xh;center,top")
+        center/cover fixed;
+      padding: 24px;
+    }
+
+    .page {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.88);
+      border-radius: 34px;
+      padding: 28px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(10px);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .back-link,
+    .quick-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 11px 18px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: 0.2s ease;
+      box-shadow: 0 6px 18px rgba(36, 66, 104, 0.08);
+    }
+
+    .back-link {
+      background: var(--primary-100);
+      color: var(--primary-700);
+      border: 1px solid rgba(79, 111, 168, 0.20);
+    }
+
+    .quick-link {
+      background: var(--accent-100);
+      color: var(--accent-700);
+      border: 1px solid rgba(123, 107, 179, 0.18);
+    }
+
+    .back-link:hover,
+    .quick-link:hover {
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .hero-card,
+    .month-card,
+    .schedule-card {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      border: 1px solid rgba(226, 232, 240, 0.95);
+    }
+
+    .hero-card {
+      padding: 28px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--accent-100);
+      color: var(--accent-700);
+      font-weight: 700;
+      font-size: 14px;
+      border: 1px solid rgba(123, 107, 179, 0.16);
+    }
+
+    h1 {
+      margin: 18px 0 10px;
+      font-size: clamp(30px, 4vw, 44px);
+      line-height: 1.2;
+      color: var(--primary-700);
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--neutral-700);
+      line-height: 1.8;
+      font-size: 16px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .stat {
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+      border: 1px solid rgba(191, 208, 238, 0.65);
+      box-shadow: 0 8px 20px rgba(36, 66, 104, 0.05);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+      color: var(--primary-700);
+    }
+
+    .stat span {
+      color: var(--neutral-500);
+      font-size: 14px;
+    }
+
+    .month-card {
+      padding: 24px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .month-title {
+      margin: 0;
+      color: var(--primary-700);
+      font-size: 24px;
+    }
+
+    .month-note {
+      margin: 0;
+      color: var(--neutral-500);
+      line-height: 1.7;
+    }
+
+    .month-list {
+      display: grid;
+      gap: 10px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .month-list li {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+      border: 1px solid rgba(123, 107, 179, 0.14);
+      box-shadow: 0 6px 14px rgba(36, 66, 104, 0.04);
+      font-weight: 600;
+      color: var(--neutral-700);
+    }
+
+    .schedule-card {
+      padding: 24px;
+    }
+
+    .section-head {
+      margin-bottom: 18px;
+    }
+
+    .section-head h2 {
+      margin: 0 0 6px;
+      color: var(--primary-700);
+      font-size: 28px;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--neutral-500);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+      border: 1px solid rgba(191, 208, 238, 0.55);
+      box-shadow: 0 8px 18px rgba(36, 66, 104, 0.05);
+    }
+
+    .timeline-date {
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, var(--primary-100), var(--accent-100));
+      color: var(--primary-700);
+      font-weight: 800;
+      text-align: center;
+      border: 1px solid rgba(123, 107, 179, 0.12);
+    }
+
+    .timeline-content h3 {
+      margin: 0 0 6px;
+      color: var(--primary-700);
+      font-size: 18px;
+    }
+
+    .timeline-content p {
+      margin: 0;
+      color: var(--neutral-700);
+      line-height: 1.7;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      text-align: center;
+      color: var(--neutral-500);
+      font-size: 14px;
+    }
+
+    @media (max-width: 860px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 14px;
+      }
+
+      .page {
+        padding: 18px;
+        border-radius: 24px;
+      }
+
+      .hero-card,
+      .month-card,
+      .schedule-card {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="topbar">
+      <a class="back-link" href="index.html">← กลับหน้าหลัก</a>
+      <a class="quick-link" href="upload.html">ไปหน้าส่งผลสัมฤทธิ์</a>
+    </div>
+
+    <section class="hero">
+      <div class="hero-card">
+        <span class="eyebrow">ปฏิทินวิชาการ</span>
+        <h1>แผนงานและกำหนดการสำคัญ</h1>
+        <p class="subtitle">สรุปกิจกรรมวิชาการ ประเมินผล สอบกลางภาค สอบปลายภาค และช่วงเวลาสำคัญของโรงเรียนในปีการศึกษา 2569</p>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <strong>2569</strong>
+            <span>ปีการศึกษา</span>
+          </div>
+          <div class="stat">
+            <strong>1</strong>
+            <span>ภาคเรียน</span>
+          </div>
+          <div class="stat">
+            <strong>อัปเดตเมื่อ</strong>
+            <span>21 เมษายน 2569</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="month-card">
+        <h2 class="month-title">วันหยุดนักขัตฤกษ์</h2>
+        <p class="month-note">ภาคเรียนที่ 1 ปีการศึกษา 2569</p>
+        <ul class="month-list">
+          <li>18 พฤษภาคม: วันเปิดภาคเรียน</li>
+          <li>1 มิถุนายน: วันหยุดชดเชยวันวิสาขบูชา</li>
+          <li>3 มิถุนายน: วันเฉลิมพระชนมพรรษาสมเด็จพระนางเจ้าสุทิดา</li>
+          <li>28 กรกฎาคม: วันเฉลิมพระชนมพรรษา สมเด็จพระเจ้าอยู่หัวมหาวชิราลงกรณ บดินทรเทพยวรางกูร</li>
+          <li>29 กรกฎาคม: วันอาสาฬหบูชา</li>
+          <li>30 กรกฎาคม: วันเข้าพรรษา</li>
+          <li>12 สิงหาคม: วันแม่แห่งชาติ</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="schedule-card">
+      <div class="section-head">
+        <h2>กำหนดการตัวอย่าง</h2>
+        <p>แก้ไขรายการเหล่านี้ให้เป็นปฏิทินวิชาการจริงของโรงเรียนได้ทันที</p>
+      </div>
+
+      <div class="timeline">
+        <article class="timeline-item">
+          <div class="timeline-date">15 พ.ค. 2569</div>
+          <div class="timeline-content">
+            <h3>เปิดภาคเรียนที่ 1</h3>
+            <p>เริ่มจัดการเรียนการสอน และตรวจสอบความพร้อมของเอกสารประจำชั้นเรียน</p>
+          </div>
+        </article>
+
+        <article class="timeline-item">
+          <div class="timeline-date">20 ก.ค. 2569</div>
+          <div class="timeline-content">
+            <h3>ติดตามผลการเรียนกลางภาค</h3>
+            <p>ประชุมครูผู้สอนเพื่อสรุปผลการติดตามและวางแผนช่วยเหลือนักเรียนรายบุคคล</p>
+          </div>
+        </article>
+
+        <article class="timeline-item">
+          <div class="timeline-date">18 ก.ย. 2569</div>
+          <div class="timeline-content">
+            <h3>สอบปลายภาคเรียนที่ 1</h3>
+            <p>ดำเนินการสอบปลายภาคและรวบรวมคะแนนเพื่อเตรียมสรุปผลการเรียน</p>
+          </div>
+        </article>
+
+        <article class="timeline-item">
+          <div class="timeline-date">1 พ.ย. 2569</div>
+          <div class="timeline-content">
+            <h3>เปิดภาคเรียนที่ 2</h3>
+            <p>เริ่มภาคเรียนใหม่ พร้อมอัปเดตเอกสารและแผนการจัดการเรียนรู้ของครูผู้สอน</p>
+          </div>
+        </article>
+      </div>
+
+      <p class="footer-note">หากต้องการ ผมช่วยต่อให้เป็นปฏิทินรายเดือนหรือใส่ตารางกิจกรรมจริงของโรงเรียนได้</p>
+    </section>
+  </main>
+</body>
+</html>
