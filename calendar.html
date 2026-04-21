@@ -126,6 +126,14 @@
       color: var(--navy-700);
     }
 
+        .nav-link.current {
+      background: linear-gradient(135deg, var(--navy-500), var(--navy-700));
+      color: var(--white);
+      border-color: transparent;
+      box-shadow: 0 12px 24px rgba(36, 66, 104, 0.16);
+      pointer-events: none;
+    }
+
     .hero {
       display: grid;
       grid-template-columns: 1.45fr 0.9fr;
@@ -302,8 +310,9 @@
     }
 
     .today-btn {
-      background: linear-gradient(135deg, var(--gold-100), #fff7df);
-      border-color: rgba(183, 146, 63, 0.28);
+      background: linear-gradient(135deg, #e7efff, #d9e6fb);
+      border-color: rgba(79, 111, 168, 0.28);
+      color: var(--navy-700);
     }
 
     .grid {
@@ -462,39 +471,38 @@
     <section class="hero">
       <div class="hero-card">
         <span class="eyebrow">ปฏิทินวิชาการ 2569</span>
-        <h1>ติดตามกำหนดการสำคัญของฝ่ายวิชาการ</h1>
-        <p class="hero-text">หน้านี้ออกแบบให้ดูภาพรวมทั้งเดือนและเช็กกำหนดการแบบรายการได้ในหน้าเดียว เหมาะสำหรับติดตามวันประชุม วันประเมิน วันส่งงาน และกิจกรรมวิชาการสำคัญของโรงเรียน</p>
+        <h1>ติดตามกำหนดการสำคัญ</h1>
+        <p class="hero-text">ดูภาพรวมทั้งเดือนและเช็กกำหนดการแบบรายการ ติดตามวันประชุม วันประเมิน วันส่งงาน และกิจกรรมสำคัญของโรงเรียน</p>
 
         <div class="stats">
           <div class="stat">
-            <strong>12</strong>
-            <span>เดือนให้เลือกดู</span>
+            <strong>ภาคเรียนที่ 1</strong>
+            <span>ปีการศึกษา 2569</span>
           </div>
           <div class="stat">
-            <strong>2 มุมมอง</strong>
-            <span>ปฏิทินและกำหนดการ</span>
+            <strong>จำนวนปฏิทิน</strong>
+            <span>2 ปฏิทิน</span>
           </div>
           <div class="stat">
-            <strong>พร้อมใช้</strong>
-            <span>ทั้งคอมพิวเตอร์และมือถือ</span>
+            <strong>สถานะ</strong>
+            <span>พร้อมใช้ภาคเรียนที่ 1</span>
           </div>
         </div>
       </div>
 
       <aside class="highlight-card">
-        <h2>การใช้งาน</h2>
-        <p>ใช้ปุ่มเลื่อนเดือนเพื่อดูปฏิทินและกำหนดการของเดือนเดียวกันทันที ส่วนฝั่งซ้ายเป็นภาพรวมแบบปฏิทิน ฝั่งขวาเป็นรายการรายเดือน</p>
+        <h2>ดาวน์โหลดเอกสาร</h2>
+        <p>เลือกดาวน์โหลดปฏิทินนับเวลาเรียนตามภาคเรียนจากลิงก์ด้านล่างได้ทันที</p>
         <ul class="highlight-list">
-          <li>ดูภาพรวมทั้งเดือนจากปฏิทินหลัก</li>
-          <li>เช็กกำหนดการเฉพาะเดือนทางด้านขวา</li>
-          <li>เหมาะสำหรับงานฝ่ายวิชาการและครูประจำชั้น</li>
+          <li><a class="nav-link secondary" href="https://drive.google.com/file/d/1_DEPeFg_C2rWsBbdTPej6W4W7FIMLBn0/view?usp=sharing" target="_blank" rel="noopener noreferrer">ดาวน์โหลดปฏิทินนับเวลาเรียน ภาคเรียนที่ 1</a></li>
+          <li><a class="nav-link secondary" href="https://drive.google.com/file/d/1_DEPeFg_C2rWsBbdTPej6W4W7FIMLBn0/view?usp=sharing" target="_blank" rel="noopener noreferrer">ดาวน์โหลดปฏิทินนับเวลาเรียน ภาคเรียนที่ 2</a></li>
         </ul>
       </aside>
     </section>
 
     <div class="control-bar">
       <div class="month-toolbar">
-        <a class="nav-link secondary" href="calendar.html">ปฏิทินวิชาการ</a>
+        <a class="nav-link secondary current" href="calendar.html" aria-current="page">ปฏิทินวิชาการ</a>
         <a class="nav-link secondary" href="attendance-calendar.html">ปฏิทินนับเวลาเรียน</a>
         <button class="month-nav-btn" type="button" id="prevMonth">←</button>
         <div class="month-current" id="currentMonthLabel">เม.ย.</div>

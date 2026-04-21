@@ -16,8 +16,9 @@
       --violet-500: #7b6bb3;
       --violet-700: #51457d;
       --gold-100: #f9f0cf;
-      --green-100: #edf7f1;
-      --green-500: #3f8a5c;
+      --green-100: #dff6e7;
+      --green-500: #1f7a3f;
+      --green-700: #15552c;
       --red-100: #fff1f1;
       --red-500: #c45555;
       --text: #243447;
@@ -127,6 +128,14 @@
     .nav-link.secondary {
       background: var(--navy-50);
       color: var(--navy-700);
+    }
+
+    .nav-link.current {
+      background: linear-gradient(135deg, var(--navy-500), var(--navy-700));
+      color: var(--white);
+      border-color: transparent;
+      box-shadow: 0 12px 24px rgba(36, 66, 104, 0.16);
+      pointer-events: none;
     }
 
     .hero {
@@ -251,6 +260,24 @@
       font-weight: 700;
     }
 
+    .highlight-list li.school-text {
+      color: var(--green-700);
+      border-color: rgba(31, 122, 63, 0.24);
+      background: rgba(223, 246, 231, 0.75);
+    }
+
+    .highlight-list li.makeup-text {
+      color: #9b7400;
+      border-color: rgba(183, 146, 63, 0.45);
+      background: rgba(249, 240, 207, 0.92);
+    }
+
+    .highlight-list li.holiday-text {
+      color: var(--red-500);
+      border-color: rgba(196, 85, 85, 0.24);
+      background: rgba(255, 241, 241, 0.9);
+    }
+
     .control-bar {
       display: flex;
       justify-content: center;
@@ -305,8 +332,9 @@
     }
 
     .today-btn {
-      background: linear-gradient(135deg, var(--gold-100), #fff7df);
-      border-color: rgba(183, 146, 63, 0.28);
+      background: linear-gradient(135deg, #e7efff, #d9e6fb);
+      border-color: rgba(79, 111, 168, 0.28);
+      color: var(--navy-700);
     }
 
     .grid {
@@ -413,8 +441,15 @@
     }
 
     .study-day.school {
-      background: linear-gradient(180deg, var(--green-100), #ffffff);
-      border-color: rgba(63, 138, 92, 0.18);
+      background: linear-gradient(180deg, #c9efd7, var(--green-100));
+      border-color: rgba(31, 122, 63, 0.42);
+      box-shadow: inset 0 0 0 1px rgba(31, 122, 63, 0.14);
+    }
+
+    .study-day.makeup {
+      background: linear-gradient(180deg, #f8e9ad, var(--gold-100));
+      border-color: rgba(183, 146, 63, 0.45);
+      box-shadow: inset 0 0 0 1px rgba(183, 146, 63, 0.12);
     }
 
     .study-day.weekend {
@@ -442,6 +477,21 @@
 
     .study-day.holiday .day-label {
       color: var(--red-500);
+    }
+
+    .study-day.school .day-number {
+      color: var(--green-700);
+    }
+
+    .study-day.school .day-label {
+      color: var(--green-700);
+      font-weight: 700;
+    }
+
+    .study-day.makeup .day-number,
+    .study-day.makeup .day-label {
+      color: #9b7400;
+      font-weight: 700;
     }
 
     .legend {
@@ -473,8 +523,8 @@
     }
 
     .legend-dot.school {
-      background: var(--green-100);
-      border-color: rgba(63, 138, 92, 0.18);
+      background: #c9efd7;
+      border-color: rgba(31, 122, 63, 0.42);
     }
 
     .legend-dot.weekend {
@@ -484,6 +534,11 @@
     .legend-dot.holiday {
       background: var(--red-100);
       border-color: rgba(196, 85, 85, 0.18);
+    }
+
+    .legend-dot.makeup {
+      background: #f8e9ad;
+      border-color: rgba(183, 146, 63, 0.45);
     }
 
     .detail-list {
@@ -496,6 +551,21 @@
       border-radius: 16px;
       background: linear-gradient(180deg, #fff, #f8fbff);
       border: 1px solid rgba(79, 111, 168, 0.12);
+    }
+
+    .detail-item.holiday-item strong,
+    .detail-item.holiday-item span {
+      color: var(--red-500);
+    }
+
+    .detail-item.makeup-item {
+      border-color: rgba(183, 146, 63, 0.45);
+      box-shadow: inset 0 0 0 1px rgba(183, 146, 63, 0.12);
+    }
+
+    .detail-item.makeup-item strong,
+    .detail-item.makeup-item span {
+      color: #9b7400;
     }
 
     .detail-item strong {
@@ -586,7 +656,7 @@
       <div class="hero-card">
         <span class="eyebrow">ปฏิทินนับเวลาเรียน 2569</span>
         <h1>เช็กวันเรียนและวันหยุดประจำเดือน</h1>
-        <p class="hero-text">หน้านี้ใช้สำหรับดูจำนวนวันเรียนทั้งหมดของแต่ละเดือน โดยทำสีเฉพาะวันจันทร์-ศุกร์ที่เป็นวันเรียน และเว้นวันหยุด เสาร์ อาทิตย์ และช่วงปิดภาคเรียนให้อ่านง่ายสบายตา</p>
+        <p class="hero-text">อัปเดต เมื่อ วันที่ 21 เมษายน 2569</p>
 
         <div class="stats">
           <div class="stat">
@@ -594,12 +664,12 @@
             <span>เริ่มนับวันเรียน</span>
           </div>
           <div class="stat">
-            <strong>15 ต.ค.</strong>
+            <strong>12 ต.ค.</strong>
             <span>สิ้นสุดภาคเรียนที่ 1</span>
           </div>
           <div class="stat">
-            <strong>ใช้งานง่าย</strong>
-            <span>ดูได้ทั้งคอมและมือถือ</span>
+            <strong id="totalSchoolCount">0</strong>
+            <span>จำนวนวันมาเรียนทั้งหมด</span>
           </div>
         </div>
       </div>
@@ -608,9 +678,10 @@
         <h2>คำอธิบาย</h2>
         <p>ระบบจะนับเฉพาะวันเรียนจริงในช่วงเปิดภาคเรียน โดยไม่รวมวันหยุดราชการ วันหยุดพิเศษ และวันเสาร์-อาทิตย์</p>
         <ul class="highlight-list">
-          <li>สีเขียว = วันเรียน</li>
+          <li class="school-text">สีเขียว = วันเรียน</li>
+          <li class="makeup-text">สีเหลือง = วันเรียนชดเชย</li>
           <li>ไม่ลงสี = เสาร์ อาทิตย์ หรือปิดเทอม</li>
-          <li>สีแดง = วันหยุดราชการหรือวันสำคัญ</li>
+          <li class="holiday-text">สีแดง = วันหยุดราชการหรือวันสำคัญ</li>
         </ul>
       </aside>
     </section>
@@ -618,7 +689,7 @@
     <div class="control-bar">
       <div class="month-toolbar">
         <a class="nav-link secondary" href="calendar.html">ปฏิทินวิชาการ</a>
-        <a class="nav-link secondary" href="attendance-calendar.html">ปฏิทินนับเวลาเรียน</a>
+        <a class="nav-link secondary current" href="attendance-calendar.html" aria-current="page">ปฏิทินนับเวลาเรียน</a>
         <button class="month-nav-btn" type="button" id="prevMonth">←</button>
         <div class="month-current" id="currentMonthLabel">เม.ย.</div>
         <button class="month-nav-btn" type="button" id="nextMonth">→</button>
@@ -664,6 +735,7 @@
             <div class="study-days" id="studyDays"></div>
             <div class="legend">
               <span class="legend-item"><span class="legend-dot school"></span>วันเรียน</span>
+              <span class="legend-item"><span class="legend-dot makeup"></span>วันเรียนชดเชย</span>
               <span class="legend-item"><span class="legend-dot weekend"></span>เสาร์-อาทิตย์</span>
               <span class="legend-item"><span class="legend-dot holiday"></span>วันหยุด</span>
             </div>
@@ -674,8 +746,8 @@
       <div class="panel">
         <div class="panel-head">
           <div>
-            <h2 class="panel-title">สรุปวันเรียนประจำเดือน</h2>
-            <p class="panel-subtitle">แสดงจำนวนวันเรียนและวันหยุดของเดือนที่เลือก</p>
+            <h2 class="panel-title">สรุปประจำเดือน</h2>
+            <p class="panel-subtitle">แสดงวันเรียนชดเชยและวันหยุดราชการ</p>
           </div>
         </div>
 
@@ -698,7 +770,14 @@
     const shortThaiMonths = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
     const weekdayNames = ["อา.", "จ.", "อ.", "พ.", "พฤ.", "ศ.", "ส."];
     const termStartDate = new Date(YEAR, 4, 18);
-    const termEndDate = new Date(YEAR, 9, 15);
+    const termEndDate = new Date(YEAR, 9, 12);
+    const makeupDayMap = {
+        // <!-- ใส่วันเรียนชดเชยตรงนี้ เช่น
+        // "2026-06-06": "วันเรียนชดเชย",
+        // "2026-07-25": "วันเรียนชดเชย"
+        // "YYYY-MM-DD": "ข้อความที่จะแสดง"
+        "2026-05-23":"วันเรียนชดเชย ทดลองนะคะ เดี๋ยวชมพูมาลบ :D"
+    };
 
     const holidayMap = {
       "2026-01-01": "วันขึ้นปีใหม่",
@@ -711,14 +790,15 @@
       "2026-05-01": "วันแรงงานแห่งชาติ",
       "2026-05-04": "วันฉัตรมงคล",
       "2026-05-11": "วันพืชมงคล",
-      "2026-06-01": "ชดเชยวันวิสาขบูชา",
+      "2026-06-01": "วันหยุดชดเชยวันวิสาขบูชา",
       "2026-06-03": "วันเฉลิมพระชนมพรรษาสมเด็จพระราชินี",
       "2026-07-28": "วันเฉลิมพระชนมพรรษาพระบาทสมเด็จพระเจ้าอยู่หัว",
       "2026-07-29": "วันอาสาฬหบูชา",
+      "2026-07-30": "วันเข้าพรรษา",
       "2026-08-12": "วันแม่แห่งชาติ",
       "2026-10-13": "วันนวมินทรมหาราช",
       "2026-10-23": "วันปิยมหาราช",
-      "2026-12-07": "ชดเชยวันคล้ายวันพระบรมราชสมภพ ร.9",
+      "2026-12-07": "วันพ่อแห่งชาติ และวันหยุดชดเชยวันคล้ายวันพระบรมราชสมภพ ร.9",
       "2026-12-10": "วันรัฐธรรมนูญ",
       "2026-12-31": "วันสิ้นปี"
     };
@@ -729,6 +809,7 @@
     const currentMonthLabel = document.getElementById("currentMonthLabel");
     const studyDays = document.getElementById("studyDays");
     const attendanceDetails = document.getElementById("attendanceDetails");
+    const totalSchoolCount = document.getElementById("totalSchoolCount");
     const schoolDayCount = document.getElementById("schoolDayCount");
     const holidayCount = document.getElementById("holidayCount");
     const weekendCount = document.getElementById("weekendCount");
@@ -747,6 +828,29 @@
       return `${date.getDate()} ${thaiMonths[date.getMonth()]} ${date.getFullYear() + 543}`;
     }
 
+    function calculateTotalSchoolDays() {
+      let totalSchoolDays = 0;
+      let totalMakeupDays = 0;
+
+      for (let date = new Date(termStartDate); date <= termEndDate; date.setDate(date.getDate() + 1)) {
+        const current = new Date(date);
+        const dateKey = toDateKey(current.getFullYear(), current.getMonth(), current.getDate());
+        const weekday = current.getDay();
+        const isWeekend = weekday === 0 || weekday === 6;
+        const isHoliday = Boolean(holidayMap[dateKey]);
+
+        if (!isWeekend && !isHoliday) {
+          totalSchoolDays += 1;
+        }
+
+        if (makeupDayMap[dateKey]) {
+          totalMakeupDays += 1;
+        }
+      }
+
+      return totalSchoolDays + totalMakeupDays;
+    }
+
     function renderAttendance(monthIndex) {
       const firstDay = new Date(YEAR, monthIndex, 1);
       const lastDay = new Date(YEAR, monthIndex + 1, 0).getDate();
@@ -754,6 +858,7 @@
       const today = new Date();
       const detailItems = [];
       let schoolDays = 0;
+      let makeupDays = 0;
       let holidayDays = 0;
       let weekendDays = 0;
       let preTermDays = 0;
@@ -772,8 +877,10 @@
         const weekday = date.getDay();
         const dateKey = toDateKey(YEAR, monthIndex, day);
         const holidayName = holidayMap[dateKey];
+        const makeupName = makeupDayMap[dateKey];
         const isWeekend = weekday === 0 || weekday === 6;
         const isHoliday = Boolean(holidayName);
+        const isMakeupDay = Boolean(makeupName);
         const isWithinTerm = date >= termStartDate && date <= termEndDate;
         const isSchoolDay = isWithinTerm && !isWeekend && !isHoliday;
         const isToday = today.getFullYear() === YEAR && today.getMonth() === monthIndex && today.getDate() === day;
@@ -785,7 +892,16 @@
         if (isHoliday) {
           detailItems.push({
             title: `${day} ${thaiMonths[monthIndex]}`,
-            detail: holidayName
+            detail: holidayName,
+            type: "holiday"
+          });
+        }
+        if (makeupName) {
+          makeupDays += 1;
+          detailItems.push({
+            title: `${day} ${thaiMonths[monthIndex]}`,
+            detail: makeupName,
+            type: "makeup"
           });
         }
         if (!isWithinTerm) {
@@ -799,6 +915,7 @@
         const cell = document.createElement("div");
         cell.className = "study-day";
         if (isSchoolDay) cell.classList.add("school");
+        if (isMakeupDay) cell.classList.add("makeup");
         if (isWeekend) cell.classList.add("weekend");
         if (isHoliday) cell.classList.add("holiday");
         if (isToday) cell.classList.add("today");
@@ -811,6 +928,8 @@
         label.className = "day-label";
         label.textContent = isHoliday
           ? holidayName
+          : isMakeupDay
+            ? makeupName
           : !isWithinTerm
             ? (date < termStartDate ? "ยังไม่เปิดเรียน" : "ปิดเทอม 1")
             : (isWeekend ? weekdayNames[weekday] : "วันเรียน");
@@ -820,25 +939,20 @@
         studyDays.appendChild(cell);
       }
 
-      schoolDayCount.textContent = schoolDays;
+      schoolDayCount.textContent = schoolDays + makeupDays;
       holidayCount.textContent = holidayDays;
       weekendCount.textContent = weekendDays;
 
-      const detailHtml = [
-        `<div class="detail-item"><strong>จำนวนวันมาเรียนทั้งหมด</strong><span>${schoolDays} วันเรียนในเดือน${thaiMonths[monthIndex]} โดยเริ่มนับตั้งแต่ ${formatThaiDate(termStartDate)} และสิ้นสุดภาคเรียนที่ 1 วันที่ ${formatThaiDate(termEndDate)}</span></div>`,
-        `<div class="detail-item"><strong>วันหยุดและวันสำคัญ</strong><span>${detailItems.length ? "ดูรายการที่เกี่ยวข้องด้านล่าง" : "เดือนนี้ไม่มีวันหยุดที่ตั้งค่าไว้เพิ่มเติม"}</span></div>`
-      ];
-
-      if (preTermDays > 0) {
-        detailHtml.push(`<div class="detail-item"><strong>ก่อนเปิดภาคเรียน</strong><span>เดือนนี้มี ${preTermDays} วันที่ยังไม่เริ่มนับเวลาเรียนก่อนวันที่ ${formatThaiDate(termStartDate)}</span></div>`);
-      }
-
-      if (breakDays > 0) {
-        detailHtml.push(`<div class="detail-item"><strong>ปิดภาคเรียนที่ 1</strong><span>เดือนนี้มี ${breakDays} วันที่อยู่นอกช่วงนับเวลาเรียนหลังวันที่ ${formatThaiDate(termEndDate)}</span></div>`);
-      }
+      const detailHtml = [];
 
       detailItems.forEach((item) => {
-        detailHtml.push(`<div class="detail-item"><strong>${item.title}</strong><span>${item.detail}</span></div>`);
+           const itemClass = item.type === "holiday"
+          ? "detail-item holiday-item"
+          : item.type === "makeup"
+            ? "detail-item makeup-item"
+            : "detail-item";
+        detailHtml.push(`<div class="${itemClass}"><strong>${item.title}</strong><span>${item.detail}</span></div>`);
+ 
       });
 
       attendanceDetails.innerHTML = detailHtml.join("");
@@ -865,6 +979,10 @@
     nextMonthButton.addEventListener("click", () => {
       setMonth((currentMonthIndex + 1) % 12);
     });
+
+    if (totalSchoolCount) {
+      totalSchoolCount.textContent = calculateTotalSchoolDays();
+    }
 
     const now = new Date();
     setMonth(now.getMonth());
