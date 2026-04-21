@@ -428,8 +428,8 @@
             selectedTeacherLink = item.link || "";
             teacherSubject.classList.remove("hidden");
             teacherSubject.textContent = item.subject === "ครูประจำชั้น"
-              ? item.teacher
-              : item.teacher + " สอนวิชา " + item.subject;
+              ? " ครูประจำชั้น "
+              : " ครูผู้สอนวิชา " + item.subject;
           });
           teacherButtons.appendChild(button);
 
@@ -443,8 +443,8 @@
               selectedTeacherLink = item.link || "";
               teacherSubject.classList.remove("hidden");
               teacherSubject.textContent = item.subject === "ครูประจำชั้น"
-                ? item.teacher
-                : item.teacher + " สอนวิชา " + item.subject;
+                ? " ครูประจำชั้น "
+                : " ครูผู้สอนวิชา " + item.subject;
             }
           }
         });
@@ -461,7 +461,7 @@
             return;
           }
 
-          alert("ครูหรือวิชานี้ยังไม่ได้ใส่ลิงก์กรอกคะแนนรายวิชา");
+          alert("ผู้ดูแลระบบยังไม่ได้ใส่ลิงก์กรอกคะแนนรายวิชา");
         });
       }
 
