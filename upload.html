@@ -92,6 +92,37 @@
       gap: 8px;
     }
 
+    .mode-switch {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .mode-btn {
+      border: 1px solid rgba(159, 180, 204, 0.35);
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--navy-700);
+      border-radius: 16px;
+      padding: 13px 14px;
+      font-family: "Noto Sans Thai", sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .mode-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(31, 61, 90, 0.12);
+    }
+
+    .mode-btn.active {
+      background: linear-gradient(135deg, var(--navy-500), var(--navy-700));
+      color: var(--white);
+      border-color: transparent;
+      box-shadow: 0 12px 28px rgba(31, 61, 90, 0.18);
+    }
+
     .room-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -160,6 +191,7 @@
 
     .actions {
       display: flex;
+      justify-content: center;
       gap: 12px;
       flex-wrap: wrap;
       margin-top: 6px;
@@ -201,18 +233,42 @@
       border: 1px solid rgba(159, 180, 204, 0.28);
     }
 
+    .teacher-display {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #fff, #fff7fa);
+      border: 1px solid rgba(239, 185, 203, 0.8);
+      color: var(--text);
+      min-height: 84px;
+      display: grid;
+      align-content: center;
+      gap: 6px;
+    }
+
+    .teacher-display strong {
+      color: var(--rose-700);
+      font-size: 18px;
+    }
+
+    .teacher-display span {
+      color: #6b5961;
+      font-size: 14px;
+    }
+
     .teacher-choice-wrap {
       display: grid;
       gap: 12px;
     }
 
-    .teacher-buttons {
+    .teacher-buttons,
+    .subject-buttons {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
       gap: 10px;
     }
 
-    .teacher-btn {
+    .teacher-btn,
+    .subject-btn {
       border: 1px solid rgba(159, 180, 204, 0.32);
       background: rgba(255, 255, 255, 0.9);
       color: var(--navy-700);
@@ -226,15 +282,27 @@
       text-align: center;
     }
 
-    .teacher-btn:hover {
+    .teacher-btn:hover,
+    .subject-btn:hover {
       transform: translateY(-1px);
       box-shadow: 0 10px 24px rgba(31, 61, 90, 0.12);
     }
 
-    .teacher-btn.active {
+    .teacher-btn.active,
+    .subject-btn.active {
       background: linear-gradient(135deg, var(--navy-500), var(--navy-700));
       color: var(--white);
       border-color: transparent;
+    }
+
+    .subject-btn.locked {
+      background: rgba(247, 249, 252, 0.98);
+      color: #6d7b8a;
+      border-style: dashed;
+    }
+
+    .selector-panel.hidden {
+      display: none;
     }
 
     .teacher-subject {
@@ -277,45 +345,59 @@
 
     <section class="hero">
       <h1>ส่งผลสัมฤทธิ์</h1>
-      <p>เลือกห้องเรียนและครูผู้สอน จากนั้นกดปุ่มเพื่อไปยังหน้ากรอกคะแนนรายวิชา</p>
+      <p>เลือกห้องเรียนและครูผู้สอน จากนั้นกดปุ่มเพื่อไปยังหน้ากรอกคะแนนรายวิชาของห้องนั้น</p>
     </section>
 
     <form action="">
       <div class="field">
-        <label>เลือกห้องเรียน</label>
-        <div class="room-grid">
-          <label class="room-option">
-            <input type="radio" name="classroom" value="ชั้นประถมศึกษาปีที่ 1" data-teacher="👑 ครูเกษร" checked>
-            <span class="room-label">ป.1</span>
-          </label>
-          <label class="room-option">
-            <input type="radio" name="classroom" value="ชั้นประถมศึกษาปีที่ 2" data-teacher="👑 ครูนุสริน">
-            <span class="room-label">ป.2</span>
-          </label>
-          <label class="room-option">
-            <input type="radio" name="classroom" value="ชั้นประถมศึกษาปีที่ 3" data-teacher="👑 ครูชมพูนุช">
-            <span class="room-label">ป.3</span>
-          </label>
-          <label class="room-option">
-            <input type="radio" name="classroom" value="ชั้นประถมศึกษาปีที่ 4" data-teacher="👑 ครูนญิลา">
-            <span class="room-label">ป.4</span>
-          </label>
-          <label class="room-option">
-            <input type="radio" name="classroom" value="ชั้นประถมศึกษาปีที่ 5" data-teacher="👑 ครูณิชชาวีร์">
-            <span class="room-label">ป.5</span>
-          </label>
-          <label class="room-option">
-            <input type="radio" name="classroom" value="ชั้นประถมศึกษาปีที่ 6" data-teacher="👑 ครูวรลักษณ์">
-            <span class="room-label">ป.6</span>
-          </label>
-          <label class="room-option">
-            <input type="radio" name="classroom" value="ห้องพิเศษเรียนรวม" data-teacher="👑 ครูปาริชาต">
-            <span class="room-label">ห้องพิเศษเรียนรวม</span>
-          </label>
+        <label>เลือกวิธีกรอกคะแนน</label>
+        <div class="mode-switch">
+          <button class="mode-btn active" type="button" id="roomModeBtn">เลือกตามห้องเรียน</button>
+          <button class="mode-btn" type="button" id="subjectModeBtn">เลือกตามรายวิชา</button>
         </div>
       </div>
 
       <div class="field">
+        <label id="selectorLabel">เลือกห้องเรียน</label>
+        <div class="selector-panel" id="roomSelector">
+          <div class="room-grid">
+            <label class="room-option">
+              <input type="radio" name="classroom" value="ชั้นประถมศึกษาปีที่ 1" checked>
+              <span class="room-label">ป.1</span>
+            </label>
+            <label class="room-option">
+              <input type="radio" name="classroom" value="ชั้นประถมศึกษาปีที่ 2">
+              <span class="room-label">ป.2</span>
+            </label>
+            <label class="room-option">
+              <input type="radio" name="classroom" value="ชั้นประถมศึกษาปีที่ 3">
+              <span class="room-label">ป.3</span>
+            </label>
+            <label class="room-option">
+              <input type="radio" name="classroom" value="ชั้นประถมศึกษาปีที่ 4">
+              <span class="room-label">ป.4</span>
+            </label>
+            <label class="room-option">
+              <input type="radio" name="classroom" value="ชั้นประถมศึกษาปีที่ 5">
+              <span class="room-label">ป.5</span>
+            </label>
+            <label class="room-option">
+              <input type="radio" name="classroom" value="ชั้นประถมศึกษาปีที่ 6">
+              <span class="room-label">ป.6</span>
+            </label>
+            <label class="room-option">
+              <input type="radio" name="classroom" value="ห้องพิเศษเรียนรวม">
+              <span class="room-label">ห้องพิเศษเรียนรวม</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="selector-panel hidden" id="subjectSelector">
+          <div class="subject-buttons" id="subjectButtons"></div>
+        </div>
+      </div>
+
+      <div class="field" id="teacherField">
         <label>เลือกครูผู้สอน</label>
         <div class="teacher-choice-wrap">
           <div class="teacher-buttons" id="teacherButtons"></div>
@@ -325,12 +407,11 @@
 
       <div class="actions">
         <button class="button button-primary" type="button" id="scoreButton">กรอกคะแนนรายวิชา</button>
-        <a class="button button-secondary" href="index.html">Back กลับหน้าหลัก</a>
       </div>
     </form>
 
     <div class="note">
-      ตอนนี้เชื่อมลิงก์กรอกคะแนนสำหรับบางห้องแล้ว ส่วนห้องหรือวิชาอื่น ๆ สามารถเพิ่มลิงก์ต่อได้ภายหลัง
+      หากวิชาใดยังไม่มีลิงก์กรอกคะแนน ระบบจะแจ้งเตือนก่อนเปิดหน้าใหม่ และสามารถเพิ่มลิงก์ในภายหลังได้
     </div>
   </main>
 
@@ -338,60 +419,141 @@
     (function () {
       var scoreButton = document.getElementById("scoreButton");
       var teacherButtons = document.getElementById("teacherButtons");
+      var subjectButtons = document.getElementById("subjectButtons");
       var teacherSubject = document.getElementById("teacherSubject");
+      var roomModeBtn = document.getElementById("roomModeBtn");
+      var subjectModeBtn = document.getElementById("subjectModeBtn");
+      var roomSelector = document.getElementById("roomSelector");
+      var subjectSelector = document.getElementById("subjectSelector");
+      var teacherField = document.getElementById("teacherField");
+      var selectorLabel = document.getElementById("selectorLabel");
       var radios = document.querySelectorAll('input[name="classroom"]');
       if (!radios.length) return;
 
       var selectedTeacherLink = "";
+      var currentMode = "room";
+      var currentSubjectName = "";
 
       var subjectTeachers = {
         "ชั้นประถมศึกษาปีที่ 1": [
           { teacher: "👑 ครูเกษร", subject: "ครูประจำชั้น", link: "https://docs.google.com/spreadsheets/d/1cPnVKOhwy4bEnnHLJ16cIcjUIe84kTnS7aFMnCcooqo/edit?usp=sharing" },
-          { teacher: "ครูนญิลา", subject: "ภาษาอังกฤษ", link: "https://docs.google.com/spreadsheets/d/1cPnVKOhwy4bEnnHLJ16cIcjUIe84kTnS7aFMnCcooqo/edit?gid=1979006343#gid=1979006343&range=C7:P9" },
-          { teacher: "ครูณิชชาวีร์", subject: "วิทยาศาสตร์", link: "https://docs.google.com/spreadsheets/d/1cPnVKOhwy4bEnnHLJ16cIcjUIe84kTnS7aFMnCcooqo/edit?gid=39720#gid=39720&range=C7:P9" }
+          { teacher: "ครูญิลา", subject: "ภาษาอังกฤษ", link: "https://docs.google.com/spreadsheets/d/1cPnVKOhwy4bEnnHLJ16cIcjUIe84kTnS7aFMnCcooqo/edit?gid=1979006343#gid=1979006343&range=C7:P9" },
+          { teacher: "ครูณิชชาวีร์", subject: "วิทยาศาสตร์", link: "https://docs.google.com/spreadsheets/d/1upu_Go5JBnGTN_7Ag5N30wGFZXvm9ia4NV-2QWEHVhw/edit?usp=sharing" }
         ],
         "ชั้นประถมศึกษาปีที่ 2": [
           { teacher: "👑 ครูนุสริน", subject: "ครูประจำชั้น", link: "https://docs.google.com/spreadsheets/d/1IYFPTIwzA3znrhrcnz3BZ250WZkpsPzV_RwD6W64RQo/edit?usp=sharing" },
           { teacher: "ครูชมพูนุช", subject: "ภาษาอังกฤษ", link: "https://docs.google.com/spreadsheets/d/1IYFPTIwzA3znrhrcnz3BZ250WZkpsPzV_RwD6W64RQo/edit?gid=1979006343#gid=1979006343&range=C7:P22" },
           { teacher: "ครูฮานี", subject: "คณิตศาสตร์", link: "https://docs.google.com/spreadsheets/d/1IYFPTIwzA3znrhrcnz3BZ250WZkpsPzV_RwD6W64RQo/edit?gid=406176090#gid=406176090&range=C7:P22" },
-          { teacher: "ครูณิชชาวีร์", subject: "วิทยาศาสตร์", link: "https://docs.google.com/spreadsheets/d/1IYFPTIwzA3znrhrcnz3BZ250WZkpsPzV_RwD6W64RQo/edit?gid=39720#gid=39720&range=C7:P22" }
+          { teacher: "ครูณิชชาวีร์", subject: "วิทยาศาสตร์", link: "https://docs.google.com/spreadsheets/d/1upu_Go5JBnGTN_7Ag5N30wGFZXvm9ia4NV-2QWEHVhw/edit?usp=sharing" }
         ],
         "ชั้นประถมศึกษาปีที่ 3": [
           { teacher: "👑 ครูชมพูนุช", subject: "ครูประจำชั้น", link: "https://docs.google.com/spreadsheets/d/1U_tk0moCZNS6R5ZJkoN-8ZpGqvb9wDyN1LSlOGsyOHg/edit?usp=sharing" },
           { teacher: "ครูนุสริน", subject: "ภาษาไทย", link: "https://docs.google.com/spreadsheets/d/1U_tk0moCZNS6R5ZJkoN-8ZpGqvb9wDyN1LSlOGsyOHg/edit?gid=1075589960#gid=1075589960&range=C7:P14" },
           { teacher: "ครูเกษร", subject: "การงานอาชีพ", link: "https://docs.google.com/spreadsheets/d/1U_tk0moCZNS6R5ZJkoN-8ZpGqvb9wDyN1LSlOGsyOHg/edit?gid=1487086655#gid=1487086655&range=C7:P14" },
-          { teacher: "ครูณิชชาวีร์", subject: "วิทยาศาสตร์", link: "https://docs.google.com/spreadsheets/d/1U_tk0moCZNS6R5ZJkoN-8ZpGqvb9wDyN1LSlOGsyOHg/edit?gid=39720#gid=39720&range=C7:P14" }
+          { teacher: "ครูณิชชาวีร์", subject: "วิทยาศาสตร์", link: "https://docs.google.com/spreadsheets/d/1upu_Go5JBnGTN_7Ag5N30wGFZXvm9ia4NV-2QWEHVhw/edit?usp=sharing" }
         ],
         "ชั้นประถมศึกษาปีที่ 4": [
-          { teacher: "👑 ครูนญิลา", subject: "ครูประจำชั้น", link: "" },
+          { teacher: "👑 ครูญิลา", subject: "ครูประจำชั้น", link: "" },
           { teacher: "ครูฮานี", subject: "คณิตศาสตร์, สุขศึกษา", link: "" },
           { teacher: "ครูวรลักษณ์", subject: "ภาษาไทย", link: "" },
           { teacher: "ครูเกษร", subject: "การงานอาชีพ", link: "" },
-          { teacher: "ครูณิชชาวีร์", subject: "วิทยาศาสตร์", link: "" }
+          { teacher: "ครูณิชชาวีร์", subject: "วิทยาศาสตร์", link: "https://docs.google.com/spreadsheets/d/1upu_Go5JBnGTN_7Ag5N30wGFZXvm9ia4NV-2QWEHVhw/edit?usp=sharing" }
         ],
         "ชั้นประถมศึกษาปีที่ 5": [
           { teacher: "👑 ครูณิชชาวีร์", subject: "ครูประจำชั้น", link: "" },
           { teacher: "ครูฮานี", subject: "คณิตศาสตร์, สุขศึกษา", link: "" },
           { teacher: "ครูวรลักษณ์", subject: "ภาษาไทย", link: "" },
-          { teacher: "ครูนญิลา", subject: "ภาษาอังกฤษ", link: "" },
+          { teacher: "ครูญิลา", subject: "ภาษาอังกฤษ", link: "" },
           { teacher: "ครูนุสริน", subject: "สังคมศึกษาฯ", link: "" },
           { teacher: "ครูเกษร", subject: "การงานอาชีพ", link: "" }
         ],
         "ชั้นประถมศึกษาปีที่ 6": [
           { teacher: "👑 ครูวรลักษณ์", subject: "ครูประจำชั้น", link: "" },
           { teacher: "ครูฮานี", subject: "คณิตศาสตร์, สุขศึกษา", link: "" },
-          { teacher: "ครูนญิลา", subject: "ภาษาอังกฤษ", link: "" },
-          { teacher: "ครูณิชชาวีร์", subject: "วิทยาศาสตร์", link: "" }
+          { teacher: "ครูญิลา", subject: "ภาษาอังกฤษ", link: "" },
+          { teacher: "ครูณิชชาวีร์", subject: "วิทยาศาสตร์", link: "https://docs.google.com/spreadsheets/d/1upu_Go5JBnGTN_7Ag5N30wGFZXvm9ia4NV-2QWEHVhw/edit?usp=sharing" }
         ],
         "ห้องพิเศษเรียนรวม": [
-          { teacher: "👑 ครูปาริชาต", subject: "", link: "" }
+          { teacher: "👑 ครูปาริชาติ", subject: "", link: "" }
         ]
       };
+
+      var subjectLinks = [
+        { subject: "ภาษาไทย", link: "" },
+        { subject: "คณิตศาสตร์", link: "" },
+        { subject: "วิทยาศาสตร์", link: "https://docs.google.com/spreadsheets/d/1upu_Go5JBnGTN_7Ag5N30wGFZXvm9ia4NV-2QWEHVhw/edit?usp=sharing" },
+        { subject: "สังคมศึกษา", link: "" },
+        { subject: "ประวัติศาสตร์", link: "" },
+        { subject: "สุขศึกษา", link: "" },
+        { subject: "ศิลปะ", link: "" },
+        { subject: "การงานอาชีพ", link: "" },
+        { subject: "ภาษาอังกฤษ", link: "" },
+        { subject: "การป้องกันการทุจริต", link: "" },
+        { subject: "เทคโนโลยี", link: "" }
+      ];
+
+      function updateSubjectTeacherOptions(subjectItem) {
+        if (!teacherButtons || !teacherSubject) return;
+
+        teacherButtons.innerHTML = "";
+        currentSubjectName = subjectItem.subject;
+
+        if (subjectItem.subject === "วิทยาศาสตร์") {
+          var teacherButton = document.createElement("button");
+          teacherButton.type = "button";
+          teacherButton.className = "teacher-btn active";
+          teacherButton.textContent = "ครูณิชชาวีร์";
+          teacherButtons.appendChild(teacherButton);
+
+          selectedTeacherLink = subjectItem.link || "";
+          teacherSubject.classList.add("hidden");
+          return;
+        }
+
+        selectedTeacherLink = subjectItem.link || "";
+        teacherSubject.classList.remove("hidden");
+        teacherSubject.textContent = subjectItem.link
+          ? "วิชา " + subjectItem.subject
+          : "วิชา " + subjectItem.subject + " ยังไม่ได้ใส่ลิงก์กรอกคะแนน";
+      }
+
+      function renderSubjectButtons() {
+        if (!subjectButtons || !teacherSubject) return;
+
+        subjectButtons.innerHTML = "";
+        teacherSubject.classList.remove("hidden");
+        teacherSubject.textContent = "เลือกวิชาเพื่อเปิดหน้ากรอกคะแนน";
+        selectedTeacherLink = "";
+        teacherButtons.innerHTML = "";
+
+        subjectLinks.forEach(function (item, index) {
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "subject-btn";
+          if (!item.link) button.classList.add("locked");
+          button.textContent = item.link ? item.subject : "🔒 " + item.subject;
+
+          button.addEventListener("click", function () {
+            var allButtons = subjectButtons.querySelectorAll(".subject-btn");
+            allButtons.forEach(function (btn) {
+              btn.classList.remove("active");
+            });
+            button.classList.add("active");
+            updateSubjectTeacherOptions(item);
+          });
+
+          subjectButtons.appendChild(button);
+
+          if (index === 0) {
+            button.classList.add("active");
+            updateSubjectTeacherOptions(item);
+          }
+        });
+      }
 
       function updateTeacher() {
         var selected = document.querySelector('input[name="classroom"]:checked');
         if (!selected) return;
-
         if (!teacherButtons || !teacherSubject) return;
 
         var items = subjectTeachers[selected.value] || [];
@@ -428,9 +590,10 @@
             selectedTeacherLink = item.link || "";
             teacherSubject.classList.remove("hidden");
             teacherSubject.textContent = item.subject === "ครูประจำชั้น"
-              ? " ครูประจำชั้น "
-              : " ครูผู้สอนวิชา " + item.subject;
+              ? item.teacher
+              : item.teacher + " สอนวิชา " + item.subject;
           });
+
           teacherButtons.appendChild(button);
 
           if (index === 0) {
@@ -443,15 +606,42 @@
               selectedTeacherLink = item.link || "";
               teacherSubject.classList.remove("hidden");
               teacherSubject.textContent = item.subject === "ครูประจำชั้น"
-                ? " ครูประจำชั้น "
-                : " ครูผู้สอนวิชา " + item.subject;
+                ? item.teacher
+                : item.teacher + " สอนวิชา " + item.subject;
             }
           }
         });
       }
 
+      function switchMode(mode) {
+        currentMode = mode;
+        var isRoomMode = mode === "room";
+
+        roomModeBtn.classList.toggle("active", isRoomMode);
+        subjectModeBtn.classList.toggle("active", !isRoomMode);
+        roomSelector.classList.toggle("hidden", !isRoomMode);
+        subjectSelector.classList.toggle("hidden", isRoomMode);
+        selectorLabel.textContent = isRoomMode ? "เลือกห้องเรียน" : "เลือกรายวิชา";
+
+        if (isRoomMode) {
+          teacherField.classList.remove("hidden");
+          updateTeacher();
+        } else {
+          teacherField.classList.remove("hidden");
+          renderSubjectButtons();
+        }
+      }
+
       radios.forEach(function (radio) {
         radio.addEventListener("change", updateTeacher);
+      });
+
+      roomModeBtn.addEventListener("click", function () {
+        switchMode("room");
+      });
+
+      subjectModeBtn.addEventListener("click", function () {
+        switchMode("subject");
       });
 
       if (scoreButton) {
@@ -461,7 +651,9 @@
             return;
           }
 
-          alert("ผู้ดูแลระบบยังไม่ได้ใส่ลิงก์กรอกคะแนนรายวิชา");
+          alert(currentMode === "room"
+            ? "ครูหรือวิชานี้ยังไม่ได้ใส่ลิงก์กรอกคะแนนรายวิชา"
+            : "รายวิชานี้ยังไม่ได้ใส่ลิงก์กรอกคะแนน");
         });
       }
 

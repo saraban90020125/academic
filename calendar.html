@@ -256,6 +256,46 @@
       font-weight: 700;
     }
 
+    .download-picker {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .download-select {
+      flex: 1;
+      min-width: 220px;
+      padding: 12px 14px;
+      font-size: 16px;
+      font-family: "Noto Sans Thai", sans-serif;
+      border: 1px solid rgba(79, 111, 168, 0.24);
+      border-radius: 12px;
+      background: #f5f7fb;
+      color: var(--text);
+      cursor: pointer;
+      box-sizing: border-box;
+    }
+
+    .download-button {
+      padding: 12px 20px;
+      font-size: 16px;
+      font-family: "Noto Sans Thai", sans-serif;
+      border: none;
+      border-radius: 12px;
+      background: #2e7d32;
+      color: var(--white);
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.18s ease, box-shadow 0.18s ease;
+      font-weight: 700;
+    }
+
+    .download-button:hover {
+      background: #1b5e20;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(27, 94, 32, 0.18);
+    }
+
     .control-bar {
       display: flex;
       justify-content: center;
@@ -472,7 +512,7 @@
       <div class="hero-card">
         <span class="eyebrow">ปฏิทินวิชาการ 2569</span>
         <h1>ติดตามกำหนดการสำคัญ</h1>
-        <p class="hero-text">ดูภาพรวมทั้งเดือนและเช็กกำหนดการแบบรายการ ติดตามวันประชุม วันประเมิน วันส่งงาน และกิจกรรมสำคัญของโรงเรียน</p>
+        <p class="hero-text">ดูภาพรวมทั้งเดือนและเช็กกำหนดการแบบรายการ ติดตามวันประชุม วันประเมิน วันส่งงาน และกิจกรรมสำคัญของโรงเรียนวัดเลียบ</p>
 
         <div class="stats">
           <div class="stat">
@@ -485,18 +525,22 @@
           </div>
           <div class="stat">
             <strong>สถานะ</strong>
-            <span>พร้อมใช้ภาคเรียนที่ 1</span>
+            <span>ใช้ในภาคเรียนที่ 1</span>
           </div>
         </div>
       </div>
 
       <aside class="highlight-card">
-        <h2>ดาวน์โหลดเอกสาร</h2>
-        <p>เลือกดาวน์โหลดปฏิทินนับเวลาเรียนตามภาคเรียนจากลิงก์ด้านล่างได้ทันที</p>
-        <ul class="highlight-list">
-          <li><a class="nav-link secondary" href="https://drive.google.com/file/d/1_DEPeFg_C2rWsBbdTPej6W4W7FIMLBn0/view?usp=sharing" target="_blank" rel="noopener noreferrer">ดาวน์โหลดปฏิทินนับเวลาเรียน ภาคเรียนที่ 1</a></li>
-          <li><a class="nav-link secondary" href="https://drive.google.com/file/d/1_DEPeFg_C2rWsBbdTPej6W4W7FIMLBn0/view?usp=sharing" target="_blank" rel="noopener noreferrer">ดาวน์โหลดปฏิทินนับเวลาเรียน ภาคเรียนที่ 2</a></li>
-        </ul>
+        <h2>ดาวน์โหลดปฏิทิน ปีการศึกษา 2569</h2>
+        <p>เลือกภาคเรียนที่ต้องการดาวน์โหลด จากนั้นกดปุ่มตกลงเพื่อเปิดเอกสารในแท็บใหม่</p>
+        <div class="download-picker">
+          <select id="scheduleLink" class="download-select">
+            <option value="">เลือกดาวน์โหลดปฏิทิน</option>
+            <option value="https://drive.google.com/file/d/1_DEPeFg_C2rWsBbdTPej6W4W7FIMLBn0/view?usp=sharing">ปฏิทินนับเวลาเรียน ภาคเรียนที่ 1</option>
+            <option value="https://drive.google.com/file/d/1_DEPeFg_C2rWsBbdTPej6W4W7FIMLBn0/view?usp=sharing">ปฏิทินนับเวลาเรียน ภาคเรียนที่ 2 (ยังไม่เป็นทางการ)</option>
+          </select>
+          <button type="button" class="download-button" id="scheduleOpenButton">ตกลง</button>
+        </div>
       </aside>
     </section>
 
@@ -567,6 +611,8 @@
     const prevMonthButton = document.getElementById("prevMonth");
     const nextMonthButton = document.getElementById("nextMonth");
     const currentMonthLabel = document.getElementById("currentMonthLabel");
+    const scheduleLink = document.getElementById("scheduleLink");
+    const scheduleOpenButton = document.getElementById("scheduleOpenButton");
 
     let currentMonthIndex = 0;
 
@@ -610,6 +656,17 @@
     nextMonthButton.addEventListener("click", () => {
       setMonth((currentMonthIndex + 1) % 12);
     });
+
+    if (scheduleOpenButton) {
+      scheduleOpenButton.addEventListener("click", () => {
+        const selectedLink = scheduleLink ? scheduleLink.value : "";
+        if (selectedLink) {
+          window.open(selectedLink, "_blank");
+          return;
+        }
+        alert("กรุณาเลือกรายการก่อน");
+      });
+    }
 
     const now = new Date();
     setMonth(now.getMonth());
