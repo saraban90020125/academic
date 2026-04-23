@@ -594,6 +594,20 @@
         grid-template-columns: 1fr;
       }
 
+      .topbar,
+      .top-actions {
+        align-items: stretch;
+      }
+
+      .top-actions,
+      .nav-links {
+        width: 100%;
+      }
+
+      .nav-links {
+        justify-content: center;
+      }
+
       .attendance-summary {
         grid-template-columns: 1fr;
       }
@@ -601,18 +615,38 @@
 
     @media (max-width: 640px) {
       body {
-        padding: 12px;
+        padding: 8px;
       }
 
       .page {
-        padding: 16px;
-        border-radius: 22px;
+        padding: 12px;
+        border-radius: 18px;
+      }
+
+      .topbar {
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .top-actions {
+        gap: 8px;
+      }
+
+      .nav-links,
+      .top-actions {
+        width: 100%;
+      }
+
+      .nav-link,
+      .month-nav-btn,
+      .today-btn {
+        width: 100%;
       }
 
       .hero-card,
       .highlight-card,
       .panel {
-        padding: 16px;
+        padding: 14px;
         border-radius: 18px;
       }
 
@@ -620,16 +654,53 @@
         grid-template-columns: 1fr;
       }
 
+      .control-bar,
+      .month-toolbar {
+        width: 100%;
+      }
+
+      .month-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .month-current {
+        width: 100%;
+        min-width: 0;
+      }
+
       .brand {
         width: 100%;
       }
 
+      .study-calendar {
+        padding: 10px;
+        overflow-x: auto;
+      }
+
+      .study-weekdays,
+      .study-days {
+        gap: 6px;
+        min-width: 560px;
+      }
+
       .study-day {
-        min-height: 72px;
+        min-height: 68px;
+        padding: 8px 6px;
       }
 
       .day-label {
-        font-size: 10px;
+        font-size: 9px;
+        line-height: 1.35;
+      }
+
+      .legend {
+        gap: 8px;
+      }
+
+      .legend-item {
+        width: 100%;
+        justify-content: flex-start;
       }
     }
   </style>
