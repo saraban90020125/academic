@@ -607,11 +607,14 @@
 
       .top-actions,
       .nav-links {
+        margin-left: 0;
         width: 100%;
+        justify-content: space-between;
       }
 
       .nav-links {
-        justify-content: center;
+        width: auto;
+        justify-content: flex-start;
       }
 
       .attendance-summary {
@@ -638,13 +641,20 @@
         gap: 8px;
       }
 
-      .nav-links,
       .top-actions {
         width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap;
       }
 
-      .nav-link {
-        width: 100%;
+      .nav-links {
+        width: auto;
+      }
+
+      .top-actions > .nav-link.primary {
+        width: auto;
+        
       }
 
       .hero-card,
