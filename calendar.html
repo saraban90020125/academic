@@ -499,8 +499,6 @@
       }
 
       .nav-link,
-      .month-nav-btn,
-      .today-btn,
       .download-button,
       .download-select {
         width: 100%;
@@ -527,13 +525,20 @@
       }
 
       .month-toolbar {
-        flex-direction: column;
-        align-items: stretch;
+        display: grid;
+        grid-template-columns: 56px minmax(84px, 1fr) 56px minmax(92px, 1fr);
+        gap: 8px;
+        align-items: center;
       }
 
       .month-current {
-        width: 100%;
         min-width: 0;
+        padding: 11px 10px;
+      }
+
+      .month-toolbar .nav-link.secondary,
+      .month-toolbar .nav-link.current {
+        grid-column: 1 / -1;
       }
 
       .calendar-frame {
@@ -549,6 +554,10 @@
       .brand {
         width: 100%;
       }
+      .month-nav-btn,
+        .today-btn {
+          width: 100%;
+        }
     }
   </style>
 </head>
