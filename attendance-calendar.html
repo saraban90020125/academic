@@ -654,7 +654,7 @@
 
       .top-actions > .nav-link.primary {
         width: auto;
-        
+
       }
 
       .hero-card,
@@ -663,10 +663,17 @@
         padding: 14px;
         border-radius: 18px;
       }
-
       .stats {
         grid-template-columns: 1fr;
       }
+      .hero .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero .stats .stat:last-child {
+        grid-column: 1 / -1;
+      }
+
 
       .control-bar,
       .month-toolbar {
