@@ -92,6 +92,10 @@
       gap: 8px;
     }
 
+    .field.hidden {
+      display: none;
+    }
+
     .mode-switch {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -432,8 +436,6 @@
 
       var selectedTeacherLink = "";
       var currentMode = "room";
-      var currentSubjectName = "";
-
       var subjectTeachers = {
         "ชั้นประถมศึกษาปีที่ 1": [
           { teacher: "👑 ครูเกษร", subject: "ครูประจำชั้น", link: "https://docs.google.com/spreadsheets/d/1cPnVKOhwy4bEnnHLJ16cIcjUIe84kTnS7aFMnCcooqo/edit?usp=sharing" },
@@ -496,7 +498,6 @@
         if (!teacherButtons || !teacherSubject) return;
 
         teacherButtons.innerHTML = "";
-        currentSubjectName = subjectItem.subject;
 
         if (subjectItem.subject === "วิทยาศาสตร์") {
           var teacherButton = document.createElement("button");
@@ -511,10 +512,7 @@
         }
 
         selectedTeacherLink = subjectItem.link || "";
-        teacherSubject.classList.remove("hidden");
-        teacherSubject.textContent = subjectItem.link
-          ? "วิชา " + subjectItem.subject
-          : "วิชา " + subjectItem.subject + " ยังไม่ได้ใส่ลิงก์กรอกคะแนน";
+        teacherSubject.classList.add("hidden");
       }
 
       function renderSubjectButtons() {
@@ -627,7 +625,7 @@
           teacherField.classList.remove("hidden");
           updateTeacher();
         } else {
-          teacherField.classList.remove("hidden");
+          teacherField.classList.add("hidden");
           renderSubjectButtons();
         }
       }
