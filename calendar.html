@@ -132,7 +132,7 @@
       color: var(--navy-700);
     }
 
-        .nav-link.current {
+    .nav-link.current {
       background: linear-gradient(135deg, var(--navy-500), var(--navy-700));
       color: var(--white);
       border-color: transparent;
@@ -266,6 +266,12 @@
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .download-stack {
+      display: grid;
+      gap: 12px;
       width: 100%;
     }
 
@@ -503,6 +509,8 @@
 
       .download-picker {
         gap: 8px;
+        flex-wrap: nowrap;
+        align-items: stretch;
       }
 
       .top-actions {
@@ -519,9 +527,22 @@
       .top-actions > .nav-link.primary {
         width: auto;
       }
-      .download-button,
+
       .download-select {
-        width: 100%;
+        flex: 1 1 auto;
+        min-width: 0;
+        width: calc(100% - 78px);
+        max-width: calc(100% - 78px);
+        padding: 9px 10px;
+        font-size: 13px;
+      }
+
+      .download-button {
+        width: auto;
+        flex: 0 0 70px;
+        white-space: nowrap;
+        padding: 9px 10px;
+        font-size: 13px;
       }
 
       .hero-card,
@@ -534,6 +555,7 @@
       .stats {
         grid-template-columns: 1fr;
       }
+
       .hero .stats {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -585,10 +607,11 @@
       .brand {
         width: 100%;
       }
+
       .month-nav-btn,
-        .today-btn {
-          width: 100%;
-        }
+      .today-btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -629,15 +652,26 @@
       </div>
 
       <aside class="highlight-card">
-        <h2>ดาวน์โหลดปฏิทิน ปีการศึกษา 2569</h2>
-        <p>เลือกภาคเรียนที่ต้องการดาวน์โหลด จากนั้นกดปุ่มตกลงเพื่อเปิดเอกสารในแท็บใหม่</p>
-        <div class="download-picker">
-          <select id="scheduleLink" class="download-select">
-            <option value="">เลือกดาวน์โหลดปฏิทิน</option>
-            <option value="https://drive.google.com/file/d/1_DEPeFg_C2rWsBbdTPej6W4W7FIMLBn0/view?usp=sharing">ปฏิทินนับเวลาเรียน ภาคเรียนที่ 1</option>
-            <option value="https://drive.google.com/file/d/1_DEPeFg_C2rWsBbdTPej6W4W7FIMLBn0/view?usp=sharing">ปฏิทินนับเวลาเรียน ภาคเรียนที่ 2 (ยังไม่เป็นทางการ)</option>
-          </select>
-          <button type="button" class="download-button" id="scheduleOpenButton">ตกลง</button>
+        <h2>ดาวน์โหลดเอกสาร ปีการศึกษา 2569</h2>
+        <p>เลือกเอกสารที่ต้องการดาวน์โหลด จากนั้นกดปุ่มตกลงเพื่อเปิดเอกสารในแท็บใหม่</p>
+        <div class="download-stack">
+          <div class="download-picker">
+            <select id="calendarLink" class="download-select">
+              <option value="">เลือกดาวน์โหลดปฏิทิน</option>
+              <option value="https://drive.google.com/file/d/1_DEPeFg_C2rWsBbdTPej6W4W7FIMLBn0/view?usp=sharing">ปฏิทินนับเวลาเรียน ภาคเรียนที่ 1</option>
+              <option value="https://drive.google.com/file/d/1_DEPeFg_C2rWsBbdTPej6W4W7FIMLBn0/view?usp=sharing">ปฏิทินนับเวลาเรียน ภาคเรียนที่ 2 (ยังไม่เป็นทางการ)</option>
+            </select>
+            <button type="button" class="download-button" id="calendarOpenButton">ตกลง</button>
+          </div>
+          <div class="download-picker">
+            <select id="scheduleLink" class="download-select">
+              <option value="">เลือกดาวน์โหลดตารางสอน</option>
+              <option value="https://drive.google.com/drive/folders/1EehHPl_sk_2EROZdUS5C90u1WvkLzj1j?usp=sharing">ดาวน์โหลดตารางสอน ภาคเรียนที่ 1 (สำหรับนักเรียน)</option>
+              <option value="https://drive.google.com/drive/folders/1TjqdlZPiVqukbYfDAjLDaOFmtI26wb6_?usp=sharing">ดาวน์โหลดตารางสอน ภาคเรียนที่ 1 (สำหรับครู)</option>
+              <option value="https://drive.google.com/file/d/1Up5PF1GCzDi0H9lAmXhGnltqw1hfCWj1/view?usp=sharing">ดาวน์โหลดตารางสอนรวม ชั้นประถมศึกษาปีที่ 1-6 ภาคเรียนที่ 1 ปีการศึกษา 2569</option>
+            </select>
+            <button type="button" class="download-button" id="scheduleOpenButton">ตกลง</button>
+          </div>
         </div>
       </aside>
     </section>
@@ -709,6 +743,8 @@
     const prevMonthButton = document.getElementById("prevMonth");
     const nextMonthButton = document.getElementById("nextMonth");
     const currentMonthLabel = document.getElementById("currentMonthLabel");
+    const calendarLink = document.getElementById("calendarLink");
+    const calendarOpenButton = document.getElementById("calendarOpenButton");
     const scheduleLink = document.getElementById("scheduleLink");
     const scheduleOpenButton = document.getElementById("scheduleOpenButton");
 
@@ -754,6 +790,17 @@
     nextMonthButton.addEventListener("click", () => {
       setMonth((currentMonthIndex + 1) % 12);
     });
+
+    if (calendarOpenButton) {
+      calendarOpenButton.addEventListener("click", () => {
+        const selectedLink = calendarLink ? calendarLink.value : "";
+        if (selectedLink) {
+          window.open(selectedLink, "_blank");
+          return;
+        }
+        alert("กรุณาเลือกรายการก่อน");
+      });
+    }
 
     if (scheduleOpenButton) {
       scheduleOpenButton.addEventListener("click", () => {
