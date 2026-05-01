@@ -1,0 +1,1404 @@
+<!doctype html>
+<html lang="th" class="h-full">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phonics Adventure</title>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+    <script src="/_sdk/element_sdk.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Sarabun:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --sky: #72d7ff;
+        --sky-soft: #c9f6ff;
+        --grass: #74d96f;
+        --ink: #1b315d;
+        --paper: #ffffff;
+        --sun: #ffd84d;
+        --coral: #ff6f91;
+        --mint: #2fd7a5;
+        --blue: #3478ff;
+        --purple: #8b5cf6;
+        --shadow: rgba(26, 47, 91, 0.18);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Nunito", "Sarabun", system-ui, sans-serif;
+        font-weight: 800;
+        color: var(--ink);
+        background: var(--sky-soft);
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .app {
+        min-height: 100%;
+        position: relative;
+        overflow: auto;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 48%),
+          linear-gradient(180deg, var(--sky) 0%, var(--sky-soft) 64%, #dbffd3 64%, var(--grass) 100%);
+      }
+
+      .world-bg {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .screen {
+        position: relative;
+        z-index: 1;
+        min-height: 100%;
+        padding: 24px;
+      }
+
+      .start-screen,
+      .result-screen {
+        display: grid;
+        place-items: center;
+      }
+
+      .start-shell {
+        width: min(1080px, 100%);
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(300px, 440px);
+        gap: 28px;
+        align-items: center;
+      }
+
+      .brand-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 14px;
+        border-radius: 8px;
+        color: #11325f;
+        background: rgba(255, 255, 255, 0.76);
+        border: 3px solid rgba(255, 255, 255, 0.92);
+        box-shadow: 0 10px 24px var(--shadow);
+      }
+
+      .hero-title {
+        margin: 18px 0 8px;
+        font-size: 3.8rem;
+        line-height: 1;
+        font-weight: 900;
+        color: #12366d;
+        text-shadow: 0 4px 0 rgba(255, 255, 255, 0.85);
+      }
+
+      .hero-subtitle {
+        margin: 0 0 10px;
+        font-family: "Sarabun", "Nunito", sans-serif;
+        font-size: 1.65rem;
+        line-height: 1.3;
+        color: #0b4a77;
+      }
+
+      .hero-copy {
+        max-width: 620px;
+      }
+
+      .hero-note {
+        margin: 0 0 22px;
+        font-family: "Sarabun", "Nunito", sans-serif;
+        font-size: 1.12rem;
+        line-height: 1.65;
+        color: #24415f;
+        font-weight: 700;
+      }
+
+      .hero-name {
+        color: #c01855;
+        font-weight: 900;
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin: 0 0 22px;
+      }
+
+      .info-tile {
+        min-height: 96px;
+        padding: 12px 10px;
+        display: grid;
+        gap: 6px;
+        align-content: center;
+        justify-items: center;
+        text-align: center;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.82);
+        border: 3px solid rgba(255, 255, 255, 0.95);
+        box-shadow: 0 10px 22px var(--shadow);
+      }
+
+      .info-tile strong {
+        display: block;
+        font-size: 1rem;
+        line-height: 1.22;
+        color: #163862;
+      }
+
+      .tile-icon {
+        width: 36px;
+        height: 36px;
+        display: grid;
+        place-items: center;
+        border-radius: 8px;
+        color: #173a6a;
+        background: var(--sun);
+        box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.08);
+      }
+
+      .tile-icon.coral {
+        background: #ff8cab;
+      }
+
+      .tile-icon.mint {
+        background: #5ee5b6;
+      }
+
+      .tile-icon.blue {
+        background: #7bb0ff;
+      }
+
+      .primary-cta,
+      .secondary-cta {
+        border: 0;
+        border-radius: 8px;
+        min-height: 58px;
+        padding: 0 26px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        cursor: pointer;
+        font-size: 1.25rem;
+        font-weight: 900;
+        color: #102b4f;
+        background: linear-gradient(180deg, #ffe66b 0%, #ffc43d 100%);
+        box-shadow: 0 10px 0 #d88700, 0 18px 26px rgba(110, 79, 0, 0.22);
+        transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+      }
+
+      .primary-cta:hover,
+      .secondary-cta:hover {
+        transform: translateY(-3px);
+        filter: saturate(1.08);
+        box-shadow: 0 13px 0 #d88700, 0 22px 30px rgba(110, 79, 0, 0.26);
+      }
+
+      .primary-cta:active,
+      .secondary-cta:active {
+        transform: translateY(4px);
+        box-shadow: 0 5px 0 #d88700, 0 10px 18px rgba(110, 79, 0, 0.22);
+      }
+
+      .mascot-stage,
+      .scene-panel,
+      .result-panel {
+        border-radius: 8px;
+        border: 4px solid rgba(255, 255, 255, 0.95);
+        background: rgba(255, 255, 255, 0.78);
+        box-shadow: 0 18px 42px var(--shadow);
+      }
+
+      .mascot-stage {
+        min-height: 500px;
+        padding: 14px;
+        display: grid;
+        place-items: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .mascot-stage::after {
+        content: "";
+        position: absolute;
+        inset: auto 18px 16px;
+        height: 12px;
+        border-radius: 8px;
+        background: rgba(20, 80, 120, 0.11);
+      }
+
+      .start-graphic,
+      .level-graphic {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .game-screen {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .topbar {
+        width: min(1120px, 100%);
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .score-pill,
+      .level-pill {
+        min-height: 52px;
+        padding: 8px 14px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(255, 255, 255, 0.86);
+        border: 3px solid rgba(255, 255, 255, 0.96);
+        color: #173a6a;
+        box-shadow: 0 10px 22px var(--shadow);
+      }
+
+      .score-pill strong,
+      .level-pill strong {
+        font-size: 1.35rem;
+        color: #163862;
+      }
+
+      .progress-track {
+        width: min(1120px, 100%);
+        height: 18px;
+        margin: 0 auto 2px;
+        padding: 3px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.78);
+        border: 3px solid rgba(255, 255, 255, 0.95);
+        box-shadow: 0 10px 22px var(--shadow);
+      }
+
+      .progress-fill {
+        width: 0;
+        height: 100%;
+        border-radius: 6px;
+        background: repeating-linear-gradient(135deg, #ff6f91 0 18px, #ffd84d 18px 36px, #35d8aa 36px 54px, #3478ff 54px 72px);
+        transition: width 420ms ease;
+      }
+
+      .level-content {
+        flex: 1;
+        width: min(1120px, 100%);
+        margin: 0 auto;
+        display: grid;
+        align-items: center;
+      }
+
+      .level-board {
+        display: grid;
+        grid-template-columns: minmax(280px, 0.86fr) minmax(320px, 1fr);
+        gap: 20px;
+        align-items: center;
+      }
+
+      .scene-panel {
+        min-height: 440px;
+        padding: 18px;
+        display: grid;
+        align-content: center;
+        overflow: hidden;
+      }
+
+      .scene-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin: 0 0 8px;
+        color: #173a6a;
+      }
+
+      .scene-label span:first-child {
+        font-size: 1rem;
+        padding: 6px 10px;
+        border-radius: 8px;
+        color: #173a6a;
+        background: #ffe66b;
+      }
+
+      .sound-badge {
+        padding: 6px 10px;
+        border-radius: 8px;
+        color: #ffffff;
+        background: #3478ff;
+        box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.12);
+      }
+
+      .quiz-area {
+        color: var(--ink);
+      }
+
+      .mission-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 10px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        color: #ffffff;
+        background: #c01855;
+        box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.12);
+      }
+
+      .level-title {
+        margin: 0;
+        font-size: 2.25rem;
+        line-height: 1.12;
+        color: #12366d;
+        text-shadow: 0 3px 0 rgba(255, 255, 255, 0.88);
+      }
+
+      .level-subtitle {
+        margin: 6px 0 18px;
+        color: #2e5f84;
+        font-size: 1.08rem;
+      }
+
+      .question-strip {
+        margin-bottom: 16px;
+        padding: 16px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 12px;
+        align-items: center;
+        border-radius: 8px;
+        background: #ffffff;
+        border: 4px solid #ffd84d;
+        box-shadow: 0 12px 24px var(--shadow);
+      }
+
+      .question-strip p {
+        margin: 0;
+      }
+
+      .question-text {
+        font-family: "Sarabun", "Nunito", sans-serif;
+        font-size: 1.6rem;
+        line-height: 1.3;
+        color: #153a67;
+      }
+
+      .phonetic-chip {
+        min-width: 98px;
+        min-height: 62px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        color: #ffffff;
+        background: #3478ff;
+        font-size: 1.75rem;
+        font-weight: 900;
+        box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.14);
+      }
+
+      .choices {
+        display: grid;
+        gap: 10px;
+      }
+
+      .choice-btn {
+        width: 100%;
+        min-height: 74px;
+        padding: 10px 14px;
+        border: 4px solid #ffffff;
+        border-radius: 8px;
+        display: grid;
+        grid-template-columns: 54px minmax(0, 1fr) 34px;
+        align-items: center;
+        gap: 12px;
+        text-align: left;
+        color: #14345f;
+        cursor: pointer;
+        background: #ffffff;
+        box-shadow: 0 9px 0 #bed7e8, 0 16px 24px rgba(31, 73, 117, 0.16);
+        transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
+      }
+
+      .choice-btn:hover {
+        transform: translateY(-4px);
+        border-color: #ffd84d;
+        box-shadow: 0 13px 0 #bed7e8, 0 20px 28px rgba(31, 73, 117, 0.2);
+      }
+
+      .choice-btn:active {
+        transform: translateY(3px);
+        box-shadow: 0 5px 0 #bed7e8, 0 11px 18px rgba(31, 73, 117, 0.16);
+      }
+
+      .choice-btn:disabled {
+        cursor: default;
+      }
+
+      .choice-letter {
+        width: 50px;
+        height: 50px;
+        display: grid;
+        place-items: center;
+        border-radius: 8px;
+        background: #ff6f91;
+        color: #ffffff;
+        font-size: 1.25rem;
+        box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.12);
+      }
+
+      .choice-word {
+        min-width: 0;
+        overflow-wrap: anywhere;
+        font-size: 2rem;
+        line-height: 1.1;
+        color: #14345f;
+      }
+
+      .choice-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        background: #eaf6ff;
+        color: #3478ff;
+      }
+
+      .choice-correct {
+        border-color: #20c997;
+        background: #dcfff3;
+      }
+
+      .choice-correct .choice-letter {
+        background: #20c997;
+      }
+
+      .choice-wrong {
+        border-color: #ff5a76;
+        background: #fff0f4;
+      }
+
+      .choice-wrong .choice-letter {
+        background: #ff5a76;
+      }
+
+      .feedback-area {
+        margin-top: 14px;
+      }
+
+      .feedback-box {
+        padding: 16px;
+        border-radius: 8px;
+        border: 4px solid #ffffff;
+        background: rgba(255, 255, 255, 0.88);
+        color: #14345f;
+        box-shadow: 0 12px 24px var(--shadow);
+      }
+
+      .feedback-box p {
+        margin: 0;
+      }
+
+      .feedback-title {
+        font-family: "Sarabun", "Nunito", sans-serif;
+        font-size: 1.25rem;
+        line-height: 1.42;
+      }
+
+      .lesson {
+        margin-top: 8px !important;
+        color: #36536f;
+        line-height: 1.55;
+        font-weight: 700;
+      }
+
+      .next-row {
+        margin-top: 14px;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .next-btn {
+        min-height: 50px;
+        padding: 0 18px;
+        border: 0;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        color: #ffffff;
+        background: #3478ff;
+        box-shadow: 0 8px 0 #1d55bd, 0 14px 22px rgba(26, 76, 155, 0.24);
+        transition: transform 160ms ease, box-shadow 160ms ease;
+      }
+
+      .next-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 11px 0 #1d55bd, 0 18px 26px rgba(26, 76, 155, 0.28);
+      }
+
+      .next-btn:active {
+        transform: translateY(3px);
+        box-shadow: 0 5px 0 #1d55bd, 0 10px 18px rgba(26, 76, 155, 0.24);
+      }
+
+      .result-panel {
+        width: min(720px, 100%);
+        padding: 28px;
+        text-align: center;
+      }
+
+      .result-graphic {
+        width: min(360px, 100%);
+        margin: 0 auto 8px;
+      }
+
+      .result-title {
+        margin: 0;
+        color: #12366d;
+        font-size: 3rem;
+        line-height: 1.05;
+        text-shadow: 0 3px 0 rgba(255, 255, 255, 0.85);
+      }
+
+      .result-score {
+        margin: 10px 0 6px;
+        font-family: "Sarabun", "Nunito", sans-serif;
+        font-size: 1.45rem;
+        color: #c01855;
+      }
+
+      .result-message {
+        margin: 0 0 18px;
+        font-family: "Sarabun", "Nunito", sans-serif;
+        color: #24415f;
+        font-size: 1.22rem;
+        line-height: 1.55;
+      }
+
+      .lesson-list {
+        margin: 0 0 20px;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        list-style: none;
+        text-align: left;
+      }
+
+      .lesson-list li {
+        min-height: 58px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #f0fbff;
+        border: 3px solid #ffffff;
+        color: #24415f;
+      }
+
+      .lesson-dot {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        flex: 0 0 auto;
+        color: #14345f;
+        background: #ffd84d;
+      }
+
+      .fade-in {
+        animation: fadeIn 360ms ease both;
+      }
+
+      .correct-flash {
+        animation: correctPulse 520ms ease;
+      }
+
+      .wrong-shake {
+        animation: shake 420ms ease;
+      }
+
+      .star-pop {
+        animation: starPop 540ms ease both;
+      }
+
+      .float-star {
+        position: absolute;
+        pointer-events: none;
+        left: calc(50% - 14px);
+        top: 20%;
+        font-size: 2rem;
+        animation: floatStar 900ms ease forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes correctPulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        45% {
+          transform: scale(1.04);
+        }
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-8px);
+        }
+        75% {
+          transform: translateX(8px);
+        }
+      }
+
+      @keyframes starPop {
+        0% {
+          opacity: 0;
+          transform: scale(0.35) rotate(-12deg);
+        }
+        70% {
+          opacity: 1;
+          transform: scale(1.08) rotate(4deg);
+        }
+        100% {
+          transform: scale(1) rotate(0);
+        }
+      }
+
+      @keyframes floatStar {
+        from {
+          opacity: 1;
+          transform: translateY(0) scale(0.8) rotate(0);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(-82px) scale(1.7) rotate(24deg);
+        }
+      }
+
+      @media (max-width: 920px) {
+        .start-shell,
+        .level-board {
+          grid-template-columns: 1fr;
+        }
+
+        .mascot-stage {
+          min-height: auto;
+        }
+
+        .start-graphic {
+          max-height: 420px;
+        }
+
+        .scene-panel {
+          min-height: auto;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .screen {
+          padding: 16px;
+        }
+
+        .hero-title {
+          font-size: 2.65rem;
+        }
+
+        .hero-subtitle {
+          font-size: 1.28rem;
+        }
+
+        .info-grid,
+        .lesson-list {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .topbar {
+          align-items: stretch;
+        }
+
+        .score-pill,
+        .level-pill {
+          flex: 1;
+          justify-content: center;
+          padding: 8px;
+        }
+
+        .question-strip {
+          grid-template-columns: 1fr;
+        }
+
+        .phonetic-chip {
+          width: 100%;
+        }
+
+        .level-title {
+          font-size: 1.8rem;
+        }
+
+        .question-text {
+          font-size: 1.32rem;
+        }
+
+        .choice-word {
+          font-size: 1.6rem;
+        }
+      }
+
+      @media (max-width: 450px) {
+        .info-grid,
+        .lesson-list {
+          grid-template-columns: 1fr;
+        }
+
+        .choice-btn {
+          grid-template-columns: 46px minmax(0, 1fr);
+        }
+
+        .choice-icon {
+          display: none;
+        }
+
+        .choice-letter {
+          width: 44px;
+          height: 44px;
+        }
+
+        .hero-title {
+          font-size: 2.25rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="h-full">
+    <div id="app" class="app">
+      <svg class="world-bg" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 610 C180 555 300 660 465 604 C640 545 765 630 925 588 C1120 538 1260 585 1440 540 V900 H0 Z" fill="#55c96f" opacity="0.9"/>
+        <path d="M0 690 C260 620 430 720 650 668 C890 610 1070 690 1440 618 V900 H0 Z" fill="#2fb967" opacity="0.85"/>
+        <path d="M1060 86 C1140 12 1268 14 1342 92" fill="none" stroke="#ff6f91" stroke-width="18" stroke-linecap="round"/>
+        <path d="M1086 112 C1150 57 1258 58 1318 116" fill="none" stroke="#ffd84d" stroke-width="18" stroke-linecap="round"/>
+        <path d="M1110 138 C1160 98 1240 100 1294 140" fill="none" stroke="#35d8aa" stroke-width="18" stroke-linecap="round"/>
+        <g fill="#ffffff" opacity="0.82">
+          <path d="M109 166 h154 a42 42 0 0 0 -42 -42 h-14 a59 59 0 0 0 -107 5 h-4 a38 38 0 0 0 13 37Z"/>
+          <path d="M802 134 h180 a42 42 0 0 0 -37 -62 h-21 a66 66 0 0 0 -118 14 a38 38 0 0 0 -4 48Z"/>
+          <path d="M410 86 h138 a34 34 0 0 0 -30 -50 h-17 a53 53 0 0 0 -95 11 a31 31 0 0 0 4 39Z"/>
+        </g>
+      </svg>
+
+      <section id="screen-start" class="screen start-screen fade-in">
+        <div class="start-shell">
+          <div class="hero-copy">
+            <div class="brand-chip">
+              <i data-lucide="sparkles" aria-hidden="true"></i>
+              <span>Primary Phonics Game</span>
+            </div>
+            <h1 id="mainTitle" class="hero-title">Phonics Adventure</h1>
+            <p class="hero-subtitle">ภารกิจเมืองเสียงแสนสนุก</p>
+            <p class="hero-note">
+              ช่วย <span id="heroNameStart" class="hero-name">น้องบี</span> เก็บดาวเสียงผ่าน 5 ด่าน
+              ฝึกฟังเสียงต้นคำ เสียงสระ และการประสมคำแบบสดใสเหมาะกับเด็กประถม
+            </p>
+
+            <div class="info-grid" aria-label="ข้อมูลเกม">
+              <div class="info-tile">
+                <span class="tile-icon"><i data-lucide="clock-3" aria-hidden="true"></i></span>
+                <strong>10-15 นาที</strong>
+              </div>
+              <div class="info-tile">
+                <span class="tile-icon coral"><i data-lucide="star" aria-hidden="true"></i></span>
+                <strong>คะแนนเต็ม 10</strong>
+              </div>
+              <div class="info-tile">
+                <span class="tile-icon mint"><i data-lucide="check" aria-hidden="true"></i></span>
+                <strong>ถูก +2 คะแนน</strong>
+              </div>
+              <div class="info-tile">
+                <span class="tile-icon blue"><i data-lucide="refresh-cw" aria-hidden="true"></i></span>
+                <strong>เล่นซ้ำได้</strong>
+              </div>
+            </div>
+
+            <button type="button" onclick="startGame()" class="primary-cta">
+              <i data-lucide="play" aria-hidden="true"></i>
+              เริ่มเกม
+            </button>
+          </div>
+
+          <figure class="mascot-stage" aria-label="ภาพกราฟิกเด็กนักเรียนในเมืองเสียง">
+            <svg class="start-graphic" viewBox="0 0 420 500" role="img" aria-labelledby="startGraphicTitle">
+              <title id="startGraphicTitle">เด็กนักเรียนกับเมือง Phonics สีสันสดใส</title>
+              <rect x="25" y="48" width="370" height="365" rx="16" fill="#dff8ff"/>
+              <path d="M46 377 C96 345 140 376 184 344 C232 309 284 365 370 322 V413 H46 Z" fill="#75d77a"/>
+              <path d="M60 335 h300 v78 H60 Z" fill="#69c86f"/>
+              <g transform="translate(54 177)">
+                <rect x="0" y="42" width="74" height="112" rx="8" fill="#ffcf4d"/>
+                <rect x="13" y="63" width="16" height="18" rx="3" fill="#65b5ff"/>
+                <rect x="43" y="63" width="16" height="18" rx="3" fill="#65b5ff"/>
+                <rect x="26" y="108" width="22" height="46" rx="4" fill="#c56b4f"/>
+                <polygon points="0,42 37,8 74,42" fill="#ff6f91"/>
+              </g>
+              <g transform="translate(282 164)">
+                <rect x="0" y="54" width="82" height="124" rx="8" fill="#83d7ff"/>
+                <rect x="14" y="74" width="18" height="20" rx="3" fill="#ffffff"/>
+                <rect x="50" y="74" width="18" height="20" rx="3" fill="#ffffff"/>
+                <rect x="30" y="126" width="24" height="52" rx="4" fill="#3478ff"/>
+                <polygon points="-6,54 41,10 88,54" fill="#8b5cf6"/>
+              </g>
+              <g transform="translate(118 118)">
+                <rect x="0" y="0" width="63" height="63" rx="8" fill="#ffffff" stroke="#173a6a" stroke-width="5"/>
+                <text x="31.5" y="42" text-anchor="middle" font-family="Nunito, sans-serif" font-size="33" font-weight="900" fill="#ff6f91">A</text>
+              </g>
+              <g transform="translate(237 96)">
+                <rect x="0" y="0" width="66" height="66" rx="8" fill="#ffffff" stroke="#173a6a" stroke-width="5"/>
+                <text x="33" y="44" text-anchor="middle" font-family="Nunito, sans-serif" font-size="34" font-weight="900" fill="#3478ff">B</text>
+              </g>
+              <g transform="translate(197 190)">
+                <path d="M28 93 C16 109 14 137 28 154 H109 C123 137 121 109 109 93 Z" fill="#3478ff"/>
+                <path d="M43 91 h52 l9 68 H34 Z" fill="#ffb34d"/>
+                <circle cx="68" cy="54" r="38" fill="#ffd7a8"/>
+                <path d="M30 52 C35 18 61 7 90 16 C111 23 118 44 107 61 C89 42 63 42 30 52 Z" fill="#7b4b2a"/>
+                <circle cx="55" cy="56" r="4" fill="#173a6a"/>
+                <circle cx="83" cy="56" r="4" fill="#173a6a"/>
+                <path d="M58 76 Q69 84 82 76" fill="none" stroke="#173a6a" stroke-width="4" stroke-linecap="round"/>
+                <rect x="30" y="96" width="24" height="76" rx="8" fill="#ffd7a8"/>
+                <rect x="82" y="96" width="24" height="76" rx="8" fill="#ffd7a8"/>
+                <rect x="46" y="153" width="18" height="68" rx="8" fill="#2a5faa"/>
+                <rect x="78" y="153" width="18" height="68" rx="8" fill="#2a5faa"/>
+                <path d="M32 124 h73 v38 H32 Z" fill="#163862" opacity="0.16"/>
+                <rect x="17" y="100" width="22" height="68" rx="9" fill="#20c997"/>
+                <rect x="98" y="100" width="22" height="68" rx="9" fill="#20c997"/>
+              </g>
+              <g transform="translate(65 379)">
+                <rect x="0" y="0" width="70" height="54" rx="8" fill="#ffffff" stroke="#173a6a" stroke-width="5"/>
+                <text x="35" y="36" text-anchor="middle" font-family="Nunito, sans-serif" font-size="27" font-weight="900" fill="#20c997">cat</text>
+              </g>
+              <g transform="translate(270 390)">
+                <rect x="0" y="0" width="78" height="54" rx="8" fill="#ffffff" stroke="#173a6a" stroke-width="5"/>
+                <text x="39" y="36" text-anchor="middle" font-family="Nunito, sans-serif" font-size="27" font-weight="900" fill="#ff6f91">ball</text>
+              </g>
+              <path d="M92 98 l10 21 23 3 -17 16 4 23 -20 -11 -20 11 4 -23 -17 -16 23 -3 Z" fill="#ffd84d"/>
+              <path d="M344 84 l8 17 18 3 -13 12 3 18 -16 -8 -16 8 3 -18 -13 -12 18 -3 Z" fill="#ffd84d"/>
+            </svg>
+          </figure>
+        </div>
+      </section>
+
+      <section id="screen-game" class="screen game-screen hidden">
+        <header class="topbar">
+          <div class="score-pill" aria-label="คะแนน">
+            <i data-lucide="star" aria-hidden="true"></i>
+            <span>ดาว <strong><span id="scoreDisplay">0</span>/10</strong></span>
+          </div>
+          <div class="level-pill" aria-label="ด่าน">
+            <i data-lucide="map" aria-hidden="true"></i>
+            <span>ด่าน <strong><span id="levelNum">1</span>/5</strong></span>
+          </div>
+        </header>
+        <div class="progress-track" aria-hidden="true">
+          <div id="progressBar" class="progress-fill"></div>
+        </div>
+        <main id="levelContent" class="level-content fade-in"></main>
+      </section>
+
+      <section id="screen-result" class="screen result-screen hidden">
+        <div class="result-panel fade-in" id="resultContent"></div>
+      </section>
+    </div>
+
+    <script>
+      const defaultConfig = {
+        game_title: "Phonics Adventure",
+        hero_name: "น้องบี",
+        background_color: "#72d7ff",
+        primary_surface: "#ffd84d",
+        secondary_surface: "#ff6f91",
+        text_color: "#1b315d",
+        primary_action: "#3478ff",
+        secondary_action: "#2fd7a5",
+        font_family: "Nunito",
+        font_size: 16
+      };
+
+      let config = { ...defaultConfig };
+      let score = 0;
+      let currentLevel = 0;
+
+      const levels = [
+        {
+          scene: "gate",
+          tag: "Sound Gate",
+          title: "ด่านที่ 1: ประตูเสียง",
+          subtitle: "เปิดประตูเมืองด้วยเสียงต้นคำ",
+          question: "คำไหนออกเสียงขึ้นต้น /b/",
+          phonetic: "/b/",
+          choices: [
+            { label: "ก", text: "cat", correct: false, feedback: "ประตูยังไม่เปิด เพราะ cat เริ่มด้วยเสียง /k/" },
+            { label: "ข", text: "ball", correct: true, feedback: "เยี่ยมเลย! ball เริ่มด้วยเสียง /b/" },
+            { label: "ค", text: "dog", correct: false, feedback: "ยังไม่ใช่นะ dog เริ่มด้วยเสียง /d/" }
+          ],
+          lesson: "b = /b/ เช่น ball, bat, bed"
+        },
+        {
+          scene: "forest",
+          tag: "Vowel Forest",
+          title: "ด่านที่ 2: ป่าเสียงสระ",
+          subtitle: "ตามหาเสียงสระสั้นในป่า ABC",
+          question: "คำไหนมีเสียงสระ /æ/",
+          phonetic: "/æ/",
+          choices: [
+            { label: "ก", text: "pen", correct: false, feedback: "pen มีเสียงสระ /e/ ยังไม่ใช่ /æ/" },
+            { label: "ข", text: "cat", correct: true, feedback: "ถูกต้อง! cat มีเสียงสระ /æ/" },
+            { label: "ค", text: "sit", correct: false, feedback: "sit มีเสียงสระ /ɪ/ ยังไม่ใช่ /æ/" }
+          ],
+          lesson: "a = /æ/ เช่น cat, hat, bat"
+        },
+        {
+          scene: "bridge",
+          tag: "Blending Bridge",
+          title: "ด่านที่ 3: สะพานคำผสม",
+          subtitle: "ต่อเสียงให้เป็นคำแล้วข้ามสะพาน",
+          question: "b + at = ?",
+          phonetic: "blend",
+          choices: [
+            { label: "ก", text: "bat", correct: true, feedback: "เก่งมาก! b + a + t ผสมเป็น bat" },
+            { label: "ข", text: "bet", correct: false, feedback: "bet ใช้เสียง e จึงเป็น b + e + t" },
+            { label: "ค", text: "bit", correct: false, feedback: "bit ใช้เสียง i จึงเป็น b + i + t" }
+          ],
+          lesson: "blending คือการผสมเสียงทีละตัวให้เป็นคำ"
+        },
+        {
+          scene: "market",
+          tag: "Sound Market",
+          title: "ด่านที่ 4: ตลาดเสียง",
+          subtitle: "เลือกคำให้ตรงกับป้ายเสียงในตลาด",
+          question: "คำไหนขึ้นต้นเสียง /k/",
+          phonetic: "/k/",
+          choices: [
+            { label: "ก", text: "cat", correct: true, feedback: "ใช่เลย! cat เริ่มด้วยเสียง /k/" },
+            { label: "ข", text: "sun", correct: false, feedback: "sun เริ่มด้วยเสียง /s/" },
+            { label: "ค", text: "pig", correct: false, feedback: "pig เริ่มด้วยเสียง /p/" }
+          ],
+          lesson: "c มักออกเสียง /k/ เช่น cat, cap, cup"
+        },
+        {
+          scene: "rocket",
+          tag: "Final Sound",
+          title: "ด่านที่ 5: ภารกิจสุดท้าย",
+          subtitle: "ส่งจรวดคำศัพท์ให้ตรงกับเสียง",
+          question: "คำไหนอ่านว่า /dɒg/",
+          phonetic: "/dɒg/",
+          choices: [
+            { label: "ก", text: "dog", correct: true, feedback: "สำเร็จ! /dɒg/ คือคำว่า dog" },
+            { label: "ข", text: "dig", correct: false, feedback: "dig อ่านว่า /dɪg/" },
+            { label: "ค", text: "dug", correct: false, feedback: "dug อ่านว่า /dʌg/" }
+          ],
+          lesson: "เสียงสระเปลี่ยน คำและความหมายก็เปลี่ยน"
+        }
+      ];
+
+      const sceneGraphics = {
+        gate: `
+          <svg class="level-graphic" viewBox="0 0 360 300" role="img" aria-label="ประตูเมืองเสียง">
+            <rect x="18" y="24" width="324" height="242" rx="16" fill="#dff8ff"/>
+            <path d="M18 218 C80 190 132 230 190 199 C247 169 288 210 342 188 V266 H18 Z" fill="#79dc78"/>
+            <path d="M154 114 h52 v152 h-52 Z" fill="#ffd84d"/>
+            <path d="M84 114 h60 v152 H84 Z" fill="#ff6f91"/>
+            <path d="M216 114 h60 v152 h-60 Z" fill="#35d8aa"/>
+            <path d="M72 113 h216 v28 H72 Z" fill="#3478ff"/>
+            <path d="M92 80 h176 l20 34 H72 Z" fill="#8b5cf6"/>
+            <path d="M156 155 a24 24 0 0 1 48 0 v111 h-48 Z" fill="#8a5a38"/>
+            <circle cx="194" cy="207" r="4" fill="#ffd84d"/>
+            <rect x="110" y="156" width="28" height="34" rx="5" fill="#fff"/>
+            <rect x="224" y="156" width="28" height="34" rx="5" fill="#fff"/>
+            <rect x="141" y="44" width="78" height="54" rx="8" fill="#fff" stroke="#173a6a" stroke-width="5"/>
+            <text x="180" y="81" text-anchor="middle" font-family="Nunito, sans-serif" font-size="32" font-weight="900" fill="#ff6f91">/b/</text>
+            <path d="M46 212 h64 v54 H46 Z" fill="#ffffff" stroke="#173a6a" stroke-width="5"/>
+            <text x="78" y="248" text-anchor="middle" font-family="Nunito, sans-serif" font-size="26" font-weight="900" fill="#3478ff">ball</text>
+            <path d="M249 224 h64 v42 h-64 Z" fill="#ffffff" stroke="#173a6a" stroke-width="5"/>
+            <text x="281" y="253" text-anchor="middle" font-family="Nunito, sans-serif" font-size="22" font-weight="900" fill="#20c997">bat</text>
+          </svg>
+        `,
+        forest: `
+          <svg class="level-graphic" viewBox="0 0 360 300" role="img" aria-label="ป่าเสียงสระ">
+            <rect x="18" y="24" width="324" height="242" rx="16" fill="#dff8ff"/>
+            <path d="M18 230 C80 202 129 230 186 209 C258 182 288 213 342 194 V266 H18 Z" fill="#67ce6a"/>
+            <g transform="translate(44 86)">
+              <rect x="38" y="84" width="24" height="100" rx="8" fill="#8a5a38"/>
+              <circle cx="50" cy="69" r="48" fill="#35d8aa"/>
+              <circle cx="24" cy="92" r="35" fill="#20c997"/>
+              <circle cx="80" cy="94" r="35" fill="#20c997"/>
+            </g>
+            <g transform="translate(218 78)">
+              <rect x="42" y="96" width="24" height="108" rx="8" fill="#8a5a38"/>
+              <circle cx="54" cy="75" r="54" fill="#74d96f"/>
+              <circle cx="22" cy="104" r="36" fill="#35d8aa"/>
+              <circle cx="88" cy="106" r="38" fill="#35d8aa"/>
+            </g>
+            <g transform="translate(137 58)">
+              <rect x="0" y="0" width="86" height="86" rx="8" fill="#ffffff" stroke="#173a6a" stroke-width="5"/>
+              <text x="43" y="58" text-anchor="middle" font-family="Nunito, sans-serif" font-size="44" font-weight="900" fill="#ff6f91">a</text>
+            </g>
+            <path d="M110 222 C132 192 176 192 198 222" fill="none" stroke="#ffd84d" stroke-width="13" stroke-linecap="round"/>
+            <rect x="104" y="219" width="102" height="36" rx="8" fill="#ffffff" stroke="#173a6a" stroke-width="5"/>
+            <text x="155" y="246" text-anchor="middle" font-family="Nunito, sans-serif" font-size="26" font-weight="900" fill="#3478ff">cat</text>
+            <path d="M276 55 l8 16 18 3 -13 12 3 18 -16 -8 -16 8 3 -18 -13 -12 18 -3 Z" fill="#ffd84d"/>
+          </svg>
+        `,
+        bridge: `
+          <svg class="level-graphic" viewBox="0 0 360 300" role="img" aria-label="สะพานคำผสม">
+            <rect x="18" y="24" width="324" height="242" rx="16" fill="#dff8ff"/>
+            <path d="M18 210 C74 179 116 205 164 184 C234 153 286 195 342 167 V266 H18 Z" fill="#79dc78"/>
+            <path d="M18 215 C78 201 116 229 178 211 C236 194 285 211 342 197 V266 H18 Z" fill="#65b5ff"/>
+            <path d="M62 179 C124 142 236 142 298 179" fill="none" stroke="#8a5a38" stroke-width="18" stroke-linecap="round"/>
+            <path d="M70 194 C130 162 230 162 290 194" fill="none" stroke="#b9784a" stroke-width="18" stroke-linecap="round"/>
+            <g stroke="#6e4328" stroke-width="5">
+              <path d="M93 176 v46"/>
+              <path d="M134 160 v54"/>
+              <path d="M180 154 v54"/>
+              <path d="M226 160 v54"/>
+              <path d="M267 176 v46"/>
+            </g>
+            <g font-family="Nunito, sans-serif" font-weight="900" text-anchor="middle">
+              <rect x="57" y="66" width="62" height="62" rx="8" fill="#ffffff" stroke="#173a6a" stroke-width="5"/>
+              <text x="88" y="106" font-size="32" fill="#ff6f91">b</text>
+              <text x="137" y="105" font-size="34" fill="#173a6a">+</text>
+              <rect x="158" y="66" width="76" height="62" rx="8" fill="#ffffff" stroke="#173a6a" stroke-width="5"/>
+              <text x="196" y="106" font-size="30" fill="#20c997">at</text>
+              <text x="252" y="105" font-size="34" fill="#173a6a">=</text>
+              <rect x="272" y="66" width="58" height="62" rx="8" fill="#ffd84d" stroke="#173a6a" stroke-width="5"/>
+              <text x="301" y="106" font-size="27" fill="#3478ff">?</text>
+            </g>
+            <path d="M53 241 C91 258 127 258 165 241" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+            <path d="M210 236 C246 250 278 250 314 236" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+          </svg>
+        `,
+        market: `
+          <svg class="level-graphic" viewBox="0 0 360 300" role="img" aria-label="ตลาดเสียง">
+            <rect x="18" y="24" width="324" height="242" rx="16" fill="#dff8ff"/>
+            <path d="M18 228 h324 v38 H18 Z" fill="#75d77a"/>
+            <g transform="translate(47 90)">
+              <rect x="0" y="58" width="112" height="102" rx="8" fill="#ffffff" stroke="#173a6a" stroke-width="5"/>
+              <path d="M0 58 h112 l-13 -42 H13 Z" fill="#ff6f91"/>
+              <path d="M19 16 h18 l10 42 H24 Z" fill="#ffd84d"/>
+              <path d="M56 16 h18 l10 42 H61 Z" fill="#ffd84d"/>
+              <rect x="20" y="91" width="72" height="42" rx="8" fill="#eaf6ff"/>
+              <text x="56" y="121" text-anchor="middle" font-family="Nunito, sans-serif" font-size="28" font-weight="900" fill="#3478ff">cat</text>
+            </g>
+            <g transform="translate(203 96)">
+              <rect x="0" y="52" width="110" height="96" rx="8" fill="#ffffff" stroke="#173a6a" stroke-width="5"/>
+              <path d="M0 52 h110 l-14 -38 H14 Z" fill="#35d8aa"/>
+              <path d="M18 14 h18 l10 38 H23 Z" fill="#ffd84d"/>
+              <path d="M55 14 h18 l10 38 H60 Z" fill="#ffd84d"/>
+              <rect x="18" y="86" width="74" height="38" rx="8" fill="#fff5ce"/>
+              <text x="55" y="114" text-anchor="middle" font-family="Nunito, sans-serif" font-size="27" font-weight="900" fill="#ff6f91">cup</text>
+            </g>
+            <g transform="translate(137 47)">
+              <rect x="0" y="0" width="86" height="66" rx="8" fill="#ffffff" stroke="#173a6a" stroke-width="5"/>
+              <text x="43" y="43" text-anchor="middle" font-family="Nunito, sans-serif" font-size="35" font-weight="900" fill="#20c997">/k/</text>
+            </g>
+            <circle cx="78" cy="71" r="13" fill="#ffd84d"/>
+            <path d="M292 56 l8 15 17 2 -13 12 3 17 -15 -8 -15 8 3 -17 -13 -12 17 -2 Z" fill="#ffd84d"/>
+          </svg>
+        `,
+        rocket: `
+          <svg class="level-graphic" viewBox="0 0 360 300" role="img" aria-label="จรวดภารกิจสุดท้าย">
+            <rect x="18" y="24" width="324" height="242" rx="16" fill="#173a6a"/>
+            <path d="M34 229 C92 202 130 232 184 208 C246 181 291 214 326 193 V266 H34 Z" fill="#75d77a"/>
+            <g fill="#ffd84d">
+              <path d="M76 67 l7 14 16 2 -12 11 3 16 -14 -8 -14 8 3 -16 -12 -11 16 -2 Z"/>
+              <path d="M287 72 l6 12 13 2 -9 9 2 13 -12 -6 -12 6 2 -13 -9 -9 13 -2 Z"/>
+              <path d="M290 157 l8 16 18 3 -13 12 3 18 -16 -8 -16 8 3 -18 -13 -12 18 -3 Z"/>
+            </g>
+            <g transform="translate(141 58)">
+              <path d="M39 0 C78 35 87 103 67 155 H11 C-9 103 0 35 39 0 Z" fill="#ffffff" stroke="#173a6a" stroke-width="5"/>
+              <circle cx="39" cy="68" r="22" fill="#65b5ff" stroke="#173a6a" stroke-width="5"/>
+              <path d="M12 125 l-33 35 38 -7 Z" fill="#ff6f91" stroke="#173a6a" stroke-width="5"/>
+              <path d="M66 125 l33 35 -38 -7 Z" fill="#ff6f91" stroke="#173a6a" stroke-width="5"/>
+              <path d="M24 155 h30 l-15 48 Z" fill="#ffd84d"/>
+              <path d="M39 0 C55 15 65 37 70 62 H8 C13 37 23 15 39 0 Z" fill="#3478ff"/>
+            </g>
+            <rect x="68" y="202" width="96" height="52" rx="8" fill="#ffffff" stroke="#173a6a" stroke-width="5"/>
+            <text x="116" y="237" text-anchor="middle" font-family="Nunito, sans-serif" font-size="27" font-weight="900" fill="#ff6f91">dog</text>
+            <rect x="204" y="202" width="92" height="52" rx="8" fill="#ffffff" stroke="#173a6a" stroke-width="5"/>
+            <text x="250" y="237" text-anchor="middle" font-family="Nunito, sans-serif" font-size="25" font-weight="900" fill="#20c997">/dɒg/</text>
+          </svg>
+        `
+      };
+
+      function icon(name) {
+        return `<i data-lucide="${name}" aria-hidden="true"></i>`;
+      }
+
+      function refreshIcons() {
+        if (window.lucide && typeof window.lucide.createIcons === "function") {
+          window.lucide.createIcons();
+        }
+      }
+
+      function startGame() {
+        score = 0;
+        currentLevel = 0;
+        document.getElementById("screen-start").classList.add("hidden");
+        document.getElementById("screen-result").classList.add("hidden");
+        document.getElementById("screen-game").classList.remove("hidden");
+        renderLevel();
+      }
+
+      function renderLevel() {
+        const lv = levels[currentLevel];
+        document.getElementById("scoreDisplay").textContent = score;
+        document.getElementById("levelNum").textContent = currentLevel + 1;
+        document.getElementById("progressBar").style.width = `${(currentLevel / levels.length) * 100}%`;
+
+        const container = document.getElementById("levelContent");
+        container.className = "level-content fade-in";
+        container.innerHTML = `
+          <div class="level-board">
+            <aside class="scene-panel">
+              <div class="scene-label">
+                <span>${lv.tag}</span>
+                <span class="sound-badge">${lv.phonetic}</span>
+              </div>
+              ${sceneGraphics[lv.scene]}
+            </aside>
+            <section class="quiz-area" aria-labelledby="levelTitle">
+              <div class="mission-tag">${icon("flag")} ภารกิจที่ ${currentLevel + 1}</div>
+              <h2 id="levelTitle" class="level-title">${lv.title}</h2>
+              <p class="level-subtitle">${lv.subtitle}</p>
+              <div class="question-strip">
+                <p class="question-text">${lv.question}</p>
+                <p class="phonetic-chip">${lv.phonetic}</p>
+              </div>
+              <div class="choices" id="choicesContainer">
+                ${lv.choices.map((choice, index) => `
+                  <button type="button" onclick="selectAnswer(${index})" id="choice-${index}" class="choice-btn">
+                    <span class="choice-letter">${choice.label}</span>
+                    <span class="choice-word">${choice.text}</span>
+                    <span class="choice-icon">${icon("volume-2")}</span>
+                  </button>
+                `).join("")}
+              </div>
+              <div id="feedbackArea" class="feedback-area"></div>
+            </section>
+          </div>
+        `;
+        refreshIcons();
+      }
+
+      function selectAnswer(index) {
+        const lv = levels[currentLevel];
+        const choice = lv.choices[index];
+        const buttons = document.querySelectorAll("#choicesContainer button");
+        buttons.forEach((button) => {
+          button.disabled = true;
+          button.style.pointerEvents = "none";
+        });
+
+        const selectedButton = document.getElementById(`choice-${index}`);
+        selectedButton.style.position = "relative";
+
+        if (choice.correct) {
+          score += 2;
+          document.getElementById("scoreDisplay").textContent = score;
+          selectedButton.classList.add("choice-correct", "correct-flash");
+          selectedButton.insertAdjacentHTML("beforeend", '<span class="float-star">★</span>');
+        } else {
+          selectedButton.classList.add("choice-wrong", "wrong-shake");
+          lv.choices.forEach((item, choiceIndex) => {
+            if (item.correct) {
+              document.getElementById(`choice-${choiceIndex}`).classList.add("choice-correct");
+            }
+          });
+        }
+
+        const feedback = document.getElementById("feedbackArea");
+        feedback.innerHTML = `
+          <div class="feedback-box fade-in">
+            <p class="feedback-title">${choice.correct ? "ถูกต้อง!" : "ลองสังเกตเสียงอีกนิด"} ${choice.feedback}</p>
+            <p class="lesson">บทเรียน: ${lv.lesson}</p>
+            <div class="next-row">
+              <button type="button" onclick="nextLevel()" class="next-btn">
+                ${currentLevel < levels.length - 1 ? "ด่านถัดไป" : "ดูผลคะแนน"}
+                ${icon(currentLevel < levels.length - 1 ? "arrow-right" : "trophy")}
+              </button>
+            </div>
+          </div>
+        `;
+        refreshIcons();
+      }
+
+      function nextLevel() {
+        currentLevel += 1;
+        if (currentLevel >= levels.length) {
+          showResult();
+        } else {
+          renderLevel();
+        }
+      }
+
+      function resultGraphic(rankColor) {
+        return `
+          <svg class="result-graphic star-pop" viewBox="0 0 360 220" role="img" aria-label="ถ้วยรางวัลและดาว">
+            <rect x="34" y="22" width="292" height="170" rx="16" fill="#dff8ff"/>
+            <path d="M59 157 C98 132 143 164 184 137 C230 106 267 151 304 126 V192 H59 Z" fill="#74d96f"/>
+            <path d="M160 59 h40 v88 h-40 Z" fill="${rankColor}"/>
+            <path d="M132 50 h96 v34 c0 43 -22 70 -48 70 s-48 -27 -48 -70 Z" fill="#ffd84d" stroke="#173a6a" stroke-width="5"/>
+            <path d="M132 66 h-35 c2 36 20 55 51 59" fill="none" stroke="#173a6a" stroke-width="9" stroke-linecap="round"/>
+            <path d="M228 66 h35 c-2 36 -20 55 -51 59" fill="none" stroke="#173a6a" stroke-width="9" stroke-linecap="round"/>
+            <rect x="135" y="147" width="90" height="26" rx="8" fill="#173a6a"/>
+            <rect x="117" y="171" width="126" height="22" rx="8" fill="#3478ff"/>
+            <text x="180" y="106" text-anchor="middle" font-family="Nunito, sans-serif" font-size="37" font-weight="900" fill="#173a6a">★</text>
+            <path d="M87 48 l8 16 18 3 -13 12 3 18 -16 -8 -16 8 3 -18 -13 -12 18 -3 Z" fill="#ff6f91"/>
+            <path d="M278 42 l9 18 20 3 -15 14 4 20 -18 -10 -18 10 4 -20 -15 -14 20 -3 Z" fill="#35d8aa"/>
+          </svg>
+        `;
+      }
+
+      function showResult() {
+        document.getElementById("screen-game").classList.add("hidden");
+        document.getElementById("screen-result").classList.remove("hidden");
+        document.getElementById("progressBar").style.width = "100%";
+
+        let rank;
+        let message;
+        let rankColor;
+        if (score >= 8) {
+          rank = "Sound Hero";
+          message = "เก่งมาก! ฟังเสียงและเลือกคำได้แม่นมาก";
+          rankColor = "#20c997";
+        } else if (score >= 5) {
+          rank = "Good Listener";
+          message = "ดีมาก! ฝึกอีกนิดจะฟังเสียงได้คล่องขึ้น";
+          rankColor = "#3478ff";
+        } else {
+          rank = "Keep Trying";
+          message = "ไม่เป็นไรนะ ลองเล่นใหม่แล้วค่อย ๆ ฟังเสียงทีละคำ";
+          rankColor = "#ff6f91";
+        }
+
+        const heroName = config.hero_name || defaultConfig.hero_name;
+        document.getElementById("resultContent").innerHTML = `
+          ${resultGraphic(rankColor)}
+          <h2 class="result-title">${rank}</h2>
+          <p class="result-score">${heroName} ได้ ${score}/10 คะแนน</p>
+          <p class="result-message">${message}</p>
+          <ul class="lesson-list" aria-label="บทเรียนที่ได้">
+            <li><span class="lesson-dot">${icon("volume-2")}</span>เสียงพยัญชนะ b, c, d</li>
+            <li><span class="lesson-dot">${icon("ear")}</span>แยกเสียงสระ a, i, o</li>
+            <li><span class="lesson-dot">${icon("blocks")}</span>ประสมเสียงเป็นคำ</li>
+            <li><span class="lesson-dot">${icon("sparkles")}</span>ฟังเสียงคำอย่างตั้งใจ</li>
+          </ul>
+          <button type="button" onclick="startGame()" class="secondary-cta">
+            ${icon("rotate-ccw")} เล่นอีกครั้ง
+          </button>
+        `;
+        refreshIcons();
+      }
+
+      function applyConfig(nextConfig) {
+        const title = nextConfig.game_title || defaultConfig.game_title;
+        const hero = nextConfig.hero_name || defaultConfig.hero_name;
+        const sky = nextConfig.background_color || defaultConfig.background_color;
+        const primary = nextConfig.primary_surface || defaultConfig.primary_surface;
+        const secondary = nextConfig.secondary_surface || defaultConfig.secondary_surface;
+        const textColor = nextConfig.text_color || defaultConfig.text_color;
+        const action = nextConfig.primary_action || defaultConfig.primary_action;
+        const mint = nextConfig.secondary_action || defaultConfig.secondary_action;
+
+        document.documentElement.style.setProperty("--sky", sky);
+        document.documentElement.style.setProperty("--sun", primary);
+        document.documentElement.style.setProperty("--coral", secondary);
+        document.documentElement.style.setProperty("--ink", textColor);
+        document.documentElement.style.setProperty("--blue", action);
+        document.documentElement.style.setProperty("--mint", mint);
+
+        document.getElementById("mainTitle").textContent = title;
+        const heroStart = document.getElementById("heroNameStart");
+        if (heroStart) heroStart.textContent = hero;
+
+        const font = nextConfig.font_family || defaultConfig.font_family;
+        document.body.style.fontFamily = `${font}, Nunito, Sarabun, system-ui, sans-serif`;
+        document.body.style.fontSize = `${nextConfig.font_size || defaultConfig.font_size}px`;
+      }
+
+      if (window.elementSdk) {
+        window.elementSdk.init({
+          defaultConfig,
+          onConfigChange: async (cfg) => {
+            config = { ...defaultConfig, ...cfg };
+            applyConfig(config);
+          },
+          mapToCapabilities: (cfg) => ({
+            recolorables: [
+              { get: () => cfg.background_color || defaultConfig.background_color, set: (value) => { cfg.background_color = value; window.elementSdk.setConfig({ background_color: value }); } },
+              { get: () => cfg.primary_surface || defaultConfig.primary_surface, set: (value) => { cfg.primary_surface = value; window.elementSdk.setConfig({ primary_surface: value }); } },
+              { get: () => cfg.secondary_surface || defaultConfig.secondary_surface, set: (value) => { cfg.secondary_surface = value; window.elementSdk.setConfig({ secondary_surface: value }); } },
+              { get: () => cfg.text_color || defaultConfig.text_color, set: (value) => { cfg.text_color = value; window.elementSdk.setConfig({ text_color: value }); } },
+              { get: () => cfg.primary_action || defaultConfig.primary_action, set: (value) => { cfg.primary_action = value; window.elementSdk.setConfig({ primary_action: value }); } }
+            ],
+            borderables: [],
+            fontEditable: {
+              get: () => cfg.font_family || defaultConfig.font_family,
+              set: (value) => { cfg.font_family = value; window.elementSdk.setConfig({ font_family: value }); }
+            },
+            fontSizeable: {
+              get: () => cfg.font_size || defaultConfig.font_size,
+              set: (value) => { cfg.font_size = value; window.elementSdk.setConfig({ font_size: value }); }
+            }
+          }),
+          mapToEditPanelValues: (cfg) => new Map([
+            ["game_title", cfg.game_title || defaultConfig.game_title],
+            ["hero_name", cfg.hero_name || defaultConfig.hero_name]
+          ])
+        });
+      } else {
+        applyConfig(defaultConfig);
+      }
+
+      refreshIcons();
+    </script>
+  </body>
+</html>
